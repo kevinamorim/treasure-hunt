@@ -15,7 +15,9 @@ namespace TreasureHunt.Api.Controllers
                 Username = "testUser",
                 Difficulty = 1,
                 Finished = false,
-                StartedAt = DateTime.Now
+                StartedAt = DateTime.Now,
+                OriginalLatitude = 0,
+                OriginalLongitude = 0
             },
         };
 

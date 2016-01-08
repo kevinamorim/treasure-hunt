@@ -43,6 +43,14 @@ namespace TreasureHunt.App.Views
 
                     MainMap.MapElements.Add(DrawCircle(basicGeoPosition, 50));
 
+                    MapIcon destinationIcon = new MapIcon();
+                    BasicGeoposition destinationBasicGeoPosition = PickRandomLocation(basicGeoPosition, 1, 50);
+                    Geopoint destination = new Geopoint(destinationBasicGeoPosition);
+                    destinationIcon.Location = destination;
+                    destinationIcon.ZIndex = 0;
+
+                    MainMap.MapElements.Add(destinationIcon);
+
                     break;
                 case GeolocationAccessStatus.Denied:
                     break;
@@ -52,6 +60,18 @@ namespace TreasureHunt.App.Views
                     break;
             }
 
+        }
+
+        private BasicGeoposition PickRandomLocation(BasicGeoposition center, int minRadius, int maxRadius)
+        {
+            Random random = new Random();
+            int radius = random.Next(minRadius, maxRadius);
+
+            List<BasicGeoposition> positions = CalculateCircle(center, radius);
+
+            int index = random.Next(positions.Count);
+
+            return positions[index];
         }
 
         private MapPolygon DrawCircle(BasicGeoposition center, int radius)

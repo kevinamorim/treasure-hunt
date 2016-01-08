@@ -16,7 +16,7 @@ namespace TreasureHunt.App
     sealed partial class App : Application
     {
 
-        //public static Uri BaseUri = new Uri("http://localhost:56855/api/");
+        //public static Uri BaseUri = new Uri("http://localhost:56856/api/");
         public static Uri BaseUri = new Uri("http://treasure-hunt.azurewebsites.net/api/");
 
         public static Frame RootFrame

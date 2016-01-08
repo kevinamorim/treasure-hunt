@@ -14,7 +14,7 @@ namespace TreasureHunt.App.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (App.BaseUri == new Uri("http://localhost:56855/api//api/"))
+            if (App.BaseUri == new Uri("http://localhost:56856/api/"))
             {
                 networkBtn_localhost.IsChecked = true;
             }
@@ -32,7 +32,7 @@ namespace TreasureHunt.App.Views
 
                     if ((bool) networkBtn_localhost.IsChecked)
                     {
-                        App.BaseUri = new Uri("http://localhost:56855/api//api/");
+                        App.BaseUri = new Uri("http://localhost:56856/api/");
                     }
                     else if ((bool) networkBtn_azure.IsChecked)
                     {
@@ -40,7 +40,7 @@ namespace TreasureHunt.App.Views
                     }
                     else
                     {
-                        App.BaseUri = new Uri("http://localhost:56855/api//api/");
+                        App.BaseUri = new Uri("http://localhost:56856/api/");
                     }
 
                     App.RootFrame.Navigate(typeof(MainPage));
