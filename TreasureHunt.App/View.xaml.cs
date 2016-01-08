@@ -31,8 +31,6 @@ namespace TreasureHunt.App
                 });
                 task.Wait();
                 listView.ItemsSource = JsonConvert.DeserializeObject<List<User>>(response);
-
-                //App.ActiveUser = JsonConvert.DeserializeObject<List<User>>(response)[0];
             }
         }
 

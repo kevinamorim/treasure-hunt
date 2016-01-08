@@ -32,6 +32,9 @@ namespace TreasureHunt.App
                 case "Test Map":
                     App.RootFrame.Navigate(typeof(TestMap));
                     break;
+                case "Configure":
+                    App.RootFrame.Navigate(typeof(Configure));
+                    break;
                 default:
                     break;
             }

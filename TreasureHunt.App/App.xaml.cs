@@ -3,32 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using TreasureHunt.App.Models;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace TreasureHunt.App
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
+
     sealed partial class App : Application
     {
 
         //public static Uri BaseUri = new Uri("http://localhost:56855/api/");
-        public static Uri BaseUri = new Uri("http://192.168.137.1:56855/api/");
+        public static Uri BaseUri = new Uri("http://treasure-hunt.azurewebsites.net/api/");
+
         public static Frame RootFrame
         {
             get; set;
@@ -47,20 +37,8 @@ namespace TreasureHunt.App
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
-
-            //using (var client = new HttpClient())
-            //{
-            //    var response = "";
-            //    Task task = Task.Run(async () =>
-            //    {
-            //        response = await client.GetStringAsync(App.BaseUri);
-            //    });
-            //    task.Wait(); // Wait
-
-            //    App.ActiveUser = JsonConvert.DeserializeObject<List<User>>(response)[0];
-            //}
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
