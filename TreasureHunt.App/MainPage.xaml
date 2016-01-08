@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="TreasureHunt.App.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TreasureHunt.App"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Grid.Row="1" Margin="10, 50, 10, 0" HorizontalAlignment="Center">
+            <Button Margin="0, 10, 0, 0" Click="Button_Click">Create User</Button>
+            <Button Margin="0, 10, 0, 0" Click="Button_Click">Read Users</Button>
+            <Button Margin="0, 10, 0, 0" Click="Button_Click">New Game</Button>
+            <Button Margin="0, 10, 0, 0" Click="Button_Click">View Games</Button>
+            <Button Margin="0, 10, 0, 0" Click="Button_Click">Test Map</Button>
+        </StackPanel>
+    </Grid>
+</Page>
