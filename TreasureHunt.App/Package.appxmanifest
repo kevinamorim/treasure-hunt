@@ -4,7 +4,7 @@
   <mp:PhoneIdentity PhoneProductId="226408fd-dcbd-4a56-a44f-0c3179e2b7bf" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>TreasureHunt.App</DisplayName>
-    <PublisherDisplayName>Kevin</PublisherDisplayName>
+    <PublisherDisplayName>Kevin Amorim</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -19,6 +19,9 @@
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="portrait" />
+        </uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>

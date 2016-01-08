@@ -20,7 +20,7 @@ namespace TreasureHunt.App
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             using (var client = new HttpClient())
             {
@@ -29,7 +29,11 @@ namespace TreasureHunt.App
                 {
                     response = await client.GetStringAsync(App.BaseUri + "users");
                 });
-                task.Wait();
+                await task;
+
+                progressRing.IsActive = false;
+                progressRing.Visibility = Visibility.Collapsed;
+
                 listView.ItemsSource = JsonConvert.DeserializeObject<List<User>>(response);
             }
         }

@@ -29,7 +29,7 @@ namespace TreasureHunt.App.Views
                     Geopoint myLocation = pos.Coordinate.Point;
 
                     MainMap.Center = myLocation;
-                    MainMap.ZoomLevel = 20;
+                    MainMap.ZoomLevel = 15;
                     MainMap.LandmarksVisible = true;
                     MapIcon mapIcon1 = new MapIcon();
                     mapIcon1.Location = myLocation;
@@ -50,6 +50,12 @@ namespace TreasureHunt.App.Views
                     destinationIcon.ZIndex = 0;
 
                     MainMap.MapElements.Add(destinationIcon);
+
+                    progressRing.IsActive = false;
+                    progressRing.Visibility = Visibility.Collapsed;
+                    progressMessage.Visibility = Visibility.Collapsed;
+
+                    MainMap.Visibility = Visibility.Visible;
 
                     break;
                 case GeolocationAccessStatus.Denied:

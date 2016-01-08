@@ -10,13 +10,14 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
-            <TextBlock HorizontalAlignment="Center">MAPS</TextBlock>
+            <Button HorizontalAlignment="Center" Margin="0,50,0,50" Click="Button_Click" Content="Go Back"/>
+            <ProgressRing x:Name="progressRing" HorizontalAlignment="Center" Height="60" Width="60" IsActive="True" />
+            <TextBlock x:Name="progressMessage" Margin="0, 30, 0, 0" HorizontalAlignment="Center">Getting your location, this may take a while...</TextBlock>
             <Maps:MapControl
                 x:Name="MainMap"
                 ZoomInteractionMode="GestureAndControl"
                 TiltInteractionMode="GestureAndControl"
-                MapServiceToken="Ifw2uuRZDEmNhf49T6I3~z3st-zF9r5SreWqzPoRVTg~AvWAXUaEno7koHNd7oYfGyA4gntUBbd4efJr9pnihp0edS8y05d_1p0ib86MJVVv" Height="572" />
-            <Button Click="Button_Click" Content="Go Back"/>
+                MapServiceToken="Ifw2uuRZDEmNhf49T6I3~z3st-zF9r5SreWqzPoRVTg~AvWAXUaEno7koHNd7oYfGyA4gntUBbd4efJr9pnihp0edS8y05d_1p0ib86MJVVv" Height="346" Width="500"  HorizontalAlignment="Center" Visibility="Collapsed"/>
         </StackPanel>
     </Grid>
 </Page>

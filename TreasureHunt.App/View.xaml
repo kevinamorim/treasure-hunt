@@ -9,6 +9,8 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+        <ProgressRing x:Name="progressRing" Width="60" Height="60" IsActive="True" />
+
         <Grid Name="viewList">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
@@ -34,12 +36,15 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+
+
+                <Button Click="Button_Click" Content="Go Back" HorizontalAlignment="Center" />
+
+
             </StackPanel>
         </Grid>
 
-        <StackPanel Grid.Row="2">
-            <Button Click="Button_Click" Content="Go Back"/>
-        </StackPanel>
-        
+
+
     </Grid>
 </Page>
