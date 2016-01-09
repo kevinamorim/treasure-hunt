@@ -18,6 +18,8 @@
                 ZoomInteractionMode="GestureAndControl"
                 TiltInteractionMode="GestureAndControl"
                 MapServiceToken="Ifw2uuRZDEmNhf49T6I3~z3st-zF9r5SreWqzPoRVTg~AvWAXUaEno7koHNd7oYfGyA4gntUBbd4efJr9pnihp0edS8y05d_1p0ib86MJVVv" Height="346" Width="500"  HorizontalAlignment="Center" Visibility="Collapsed"/>
+
+            <ProgressBar x:Name="progressBar" Margin="0, 30, 0, 0" Height="30" Width="200" />
         </StackPanel>
     </Grid>
 </Page>

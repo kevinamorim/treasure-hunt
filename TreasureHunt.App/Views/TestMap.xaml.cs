@@ -6,6 +6,9 @@ using System;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
+using Windows.UI.Core;
 
 namespace TreasureHunt.App.Views
 {
@@ -17,7 +20,7 @@ namespace TreasureHunt.App.Views
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
+        {      
             var accessStatus = await Geolocator.RequestAccessAsync();
             switch (accessStatus)
             {
@@ -27,6 +30,9 @@ namespace TreasureHunt.App.Views
 
                     Geoposition pos = await geolocator.GetGeopositionAsync();
                     Geopoint myLocation = pos.Coordinate.Point;
+
+                    geolocator.PositionChanged += PositionChanged;
+                    //geolocator.ReportInterval = 
 
                     MainMap.Center = myLocation;
                     MainMap.ZoomLevel = 15;
@@ -57,6 +63,14 @@ namespace TreasureHunt.App.Views
 
                     MainMap.Visibility = Visibility.Visible;
 
+                    progressBar.Maximum = 30;
+                    progressBar.Value = 0;
+
+                    DispatcherTimer dispatcherTimer = new DispatcherTimer();
+                    dispatcherTimer.Tick += updateProgress;
+                    dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+                    dispatcherTimer.Start();
+
                     break;
                 case GeolocationAccessStatus.Denied:
                     break;
@@ -66,6 +80,23 @@ namespace TreasureHunt.App.Views
                     break;
             }
 
+        }
+
+        private async void updateProgress(object sender, object e)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                progressBar.Value += 1;
+            });
+        }
+
+        async void PositionChanged(Geolocator sender, PositionChangedEventArgs args)
+        {
+            Debug.WriteLine("refresh");
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => 
+            {
+                progressBar.Value = 0;
+            });
         }
 
         private BasicGeoposition PickRandomLocation(BasicGeoposition center, int minRadius, int maxRadius)
