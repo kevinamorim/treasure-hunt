@@ -5,57 +5,84 @@ using Windows.UI.Xaml.Navigation;
 using System;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
 using Windows.UI.Core;
+using TreasureHunt.App.Models;
+using Windows.Storage;
 
 namespace TreasureHunt.App.Views
 {
     public sealed partial class TestMap : Page
     {
+
+        private uint DesiredAccuracyInMeters
+        {
+            get; set;
+        }
+
+        private uint UpdateIntervalInSeconds
+        {
+            get; set;
+        }
+
+        private MapIcon UserLocationIcon
+        {
+            get; set;
+        }
+
+        private MapPolygon UserLocationCircle
+        {
+            get; set;
+        }
+
         public TestMap()
         {
             InitializeComponent();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {      
+        {
+
+            LoadSettings();
             var accessStatus = await Geolocator.RequestAccessAsync();
+
             switch (accessStatus)
             {
                 case GeolocationAccessStatus.Allowed:
 
-                    Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters = 50 };
+                    Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters = DesiredAccuracyInMeters };
 
                     Geoposition pos = await geolocator.GetGeopositionAsync();
                     Geopoint myLocation = pos.Coordinate.Point;
 
                     geolocator.PositionChanged += PositionChanged;
-                    geolocator.ReportInterval = 10000;
+                    geolocator.ReportInterval = UpdateIntervalInSeconds * 1000;
 
                     MainMap.Center = myLocation;
                     MainMap.ZoomLevel = 15;
                     MainMap.LandmarksVisible = true;
-                    MapIcon mapIcon1 = new MapIcon();
-                    mapIcon1.Location = myLocation;
-                    mapIcon1.ZIndex = 0;
 
-                    MainMap.MapElements.Add(mapIcon1);
+                    UserLocationIcon = new MapIcon();
+                    UserLocationIcon.Location = myLocation;
+                    UserLocationIcon.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 0.5);
+                    
+                    UserLocationIcon.ZIndex = 0;
+         
+                    MainMap.MapElements.Add(UserLocationIcon);
 
                     BasicGeoposition basicGeoPosition = new BasicGeoposition();
                     basicGeoPosition.Latitude = pos.Coordinate.Latitude;
                     basicGeoPosition.Longitude = pos.Coordinate.Longitude;
 
-                    MainMap.MapElements.Add(DrawCircle(basicGeoPosition, 50));
+                    UserLocationCircle = MapHelper.DrawCircle(GeoHelper.CalculateCircle(myLocation.Position, 50), Colors.Blue, Colors.Red);
+                    MainMap.MapElements.Add(UserLocationCircle);
 
                     MapIcon destinationIcon = new MapIcon();
-                    BasicGeoposition destinationBasicGeoPosition = PickRandomLocation(basicGeoPosition, 1, 50);
+                    BasicGeoposition destinationBasicGeoPosition = GeoHelper.PickRandomLocation(basicGeoPosition, 1, 50);
                     Geopoint destination = new Geopoint(destinationBasicGeoPosition);
                     destinationIcon.Location = destination;
                     destinationIcon.ZIndex = 0;
 
-                    MainMap.MapElements.Add(destinationIcon);
+                   // MainMap.MapElements.Add(destinationIcon);
 
                     progressRing.IsActive = false;
                     progressRing.Visibility = Visibility.Collapsed;
@@ -63,8 +90,8 @@ namespace TreasureHunt.App.Views
 
                     MainMap.Visibility = Visibility.Visible;
 
-                    progressBar.Maximum = 10;
-                    progressBar.Value = 10;
+                    progressBar.Maximum = UpdateIntervalInSeconds;
+                    progressBar.Value = UpdateIntervalInSeconds;
 
                     DispatcherTimer dispatcherTimer = new DispatcherTimer();
                     dispatcherTimer.Tick += updateProgress;
@@ -92,73 +119,12 @@ namespace TreasureHunt.App.Views
 
         async void PositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
-            Debug.WriteLine("refresh");
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => 
             {
-                progressBar.Value = 10;
-                timeTextBlock.Text = args.Position.Coordinate.Timestamp.ToString();
+                progressBar.Value = UpdateIntervalInSeconds;
+                UserLocationIcon.Location = args.Position.Coordinate.Point;
+                UserLocationCircle = MapHelper.DrawCircle(GeoHelper.CalculateCircle(args.Position.Coordinate.Point.Position, 50), Colors.Blue, Colors.Red);
             });
-        }
-
-        private BasicGeoposition PickRandomLocation(BasicGeoposition center, int minRadius, int maxRadius)
-        {
-            Random random = new Random();
-            int radius = random.Next(minRadius, maxRadius);
-
-            List<BasicGeoposition> positions = CalculateCircle(center, radius);
-
-            int index = random.Next(positions.Count);
-
-            return positions[index];
-        }
-
-        private MapPolygon DrawCircle(BasicGeoposition center, int radius)
-        {
-            Color fillColor = Colors.Peru;
-            Color strokeColor = Colors.Red;
-
-            fillColor.A = 80;
-            strokeColor.A = 80;
-
-            var circle = new MapPolygon
-            {
-                StrokeThickness = 2,
-                FillColor = fillColor,
-                StrokeColor = strokeColor,
-                Path = new Geopath(CalculateCircle(center, radius))
-            };
-
-            return circle;
-        }
-
-        private List<BasicGeoposition> CalculateCircle(BasicGeoposition center, int radius)
-        {
-
-            List<BasicGeoposition> geoPositions = new List<BasicGeoposition>();
-            double earthRadius = 6371000D;
-            double circunference = 2D * Math.PI * earthRadius;
-
-            for (int i = 0; i <= 360; i++)
-            {
-                double bearing = ToRad(i);
-                double circunferenceLatitudeCorrected = 2D * Math.PI * Math.Cos(ToRad(center.Latitude)) * earthRadius;
-                double lat1 = circunference / 360D * center.Latitude;
-                double lon1 = circunferenceLatitudeCorrected / 360D * center.Longitude;
-                double lat2 = lat1 + Math.Sin(bearing) * radius;
-                double lon2 = lon1 + Math.Cos(bearing) * radius;
-
-                BasicGeoposition newBasicPosition = new BasicGeoposition();
-                newBasicPosition.Latitude = lat2 / (circunference / 360D);
-                newBasicPosition.Longitude = lon2 / (circunferenceLatitudeCorrected / 360D);
-                geoPositions.Add(newBasicPosition);
-            }
-
-            return geoPositions;
-        }
-
-        private double ToRad(double degrees)
-        {
-            return degrees * (Math.PI / 180);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -171,6 +137,22 @@ namespace TreasureHunt.App.Views
                 default:
                     break;
             }
+        }
+
+        private void LoadSettings()
+        {
+
+            uint defaultDesiredAccuracy = 50;
+            uint defaultUpdateInterval = 10;
+
+            var localSettings = ApplicationData.Current.LocalSettings;
+
+            var desiredAccuracy = localSettings.Values["desiredAccuracy"];
+            DesiredAccuracyInMeters = (desiredAccuracy == null) ? defaultDesiredAccuracy : Convert.ToUInt32(desiredAccuracy);
+
+            var updateInterval = localSettings.Values["updateInterval"];
+            UpdateIntervalInSeconds = (updateInterval == null) ? defaultUpdateInterval : Convert.ToUInt32(updateInterval);
+
         }
 
 

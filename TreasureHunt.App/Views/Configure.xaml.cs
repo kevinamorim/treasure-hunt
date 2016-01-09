@@ -89,7 +89,7 @@ namespace TreasureHunt.App.Views
             double accuracy = accuracySlider.Value;
 
             var localSettings = ApplicationData.Current.LocalSettings;
-            localSettings.Values["accuracy"] = accuracy;
+            localSettings.Values["desiredAccuracy"] = accuracy;
         }
 
         private void SaveUpdateInterval()
