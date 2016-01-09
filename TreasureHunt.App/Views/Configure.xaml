@@ -14,7 +14,13 @@
             <RadioButton HorizontalAlignment="Center" HorizontalContentAlignment="Center" x:Name="networkBtn_localhost" Content="localhost" GroupName="network"/>
             <RadioButton HorizontalAlignment="Center" HorizontalContentAlignment="Center" x:Name="networkBtn_azure" Content="azure" GroupName="network" />
 
-            <StackPanel Orientation="Horizontal">
+            <TextBlock x:Name="accuracyTextBlock" TextAlignment="Center" FontWeight="Bold">Accuracy</TextBlock>
+            <Slider x:Name="accuracySlider" HorizontalAlignment="Center" Minimum="0" Maximum="100" Width="200" StepFrequency="10" IsThumbToolTipEnabled="False" ValueChanged="SliderChanged" />
+
+            <TextBlock x:Name="updateIntervalTextBlock" TextAlignment="Center" FontWeight="Bold">Update Interval</TextBlock>
+            <Slider x:Name="updateIntervalSlider" HorizontalAlignment="Center" Minimum="0" Maximum="60" Width="200" StepFrequency="10" IsThumbToolTipEnabled="False" ValueChanged="SliderChanged" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Margin="0, 20, 0, 0" Click="Button_Click">Save</Button>
                 <Button Margin="10, 20, 0, 0" Click="Button_Click">Go Back</Button>
             </StackPanel>

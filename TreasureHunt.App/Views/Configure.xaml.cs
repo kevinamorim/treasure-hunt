@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -22,6 +24,16 @@ namespace TreasureHunt.App.Views
             {
                 networkBtn_azure.IsChecked = true;
             }
+
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey("accuracy"))
+            {
+                accuracySlider.Value = (double) ApplicationData.Current.LocalSettings.Values["accuracy"];
+            }
+
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey("updateInterval"))
+            {
+                updateIntervalSlider.Value = (double) ApplicationData.Current.LocalSettings.Values["updateInterval"];
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -29,6 +41,9 @@ namespace TreasureHunt.App.Views
             switch ((sender as Button).Content.ToString())
             {
                 case "Save":
+
+                    SaveAccuracy();
+                    SaveUpdateInterval();
 
                     if ((bool) networkBtn_localhost.IsChecked)
                     {
@@ -52,6 +67,37 @@ namespace TreasureHunt.App.Views
                 default:
                     break;
             }
+        }
+
+        private void SliderChanged(object sender, RoutedEventArgs e)
+        {
+            switch ((sender as Slider).Name)
+            {
+                case "accuracySlider":
+                    accuracyTextBlock.Text = "Accuracy: " + accuracySlider.Value + " m";
+                    break;
+                case "updateIntervalSlider":
+                    updateIntervalTextBlock.Text = "Update Interval: " + updateIntervalSlider.Value + " sec";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void SaveAccuracy()
+        {
+            double accuracy = accuracySlider.Value;
+
+            var localSettings = ApplicationData.Current.LocalSettings;
+            localSettings.Values["accuracy"] = accuracy;
+        }
+
+        private void SaveUpdateInterval()
+        {
+            double updateInterval = updateIntervalSlider.Value;
+
+            var localSettings = ApplicationData.Current.LocalSettings;
+            localSettings.Values["updateInterval"] = updateInterval;
         }
     }
 }

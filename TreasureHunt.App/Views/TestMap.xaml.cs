@@ -26,13 +26,13 @@ namespace TreasureHunt.App.Views
             {
                 case GeolocationAccessStatus.Allowed:
 
-                    Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters = 1 };
+                    Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters = 50 };
 
                     Geoposition pos = await geolocator.GetGeopositionAsync();
                     Geopoint myLocation = pos.Coordinate.Point;
 
                     geolocator.PositionChanged += PositionChanged;
-                    //geolocator.ReportInterval = 
+                    geolocator.ReportInterval = 10000;
 
                     MainMap.Center = myLocation;
                     MainMap.ZoomLevel = 15;
@@ -63,8 +63,8 @@ namespace TreasureHunt.App.Views
 
                     MainMap.Visibility = Visibility.Visible;
 
-                    progressBar.Maximum = 30;
-                    progressBar.Value = 0;
+                    progressBar.Maximum = 10;
+                    progressBar.Value = 10;
 
                     DispatcherTimer dispatcherTimer = new DispatcherTimer();
                     dispatcherTimer.Tick += updateProgress;
@@ -86,7 +86,7 @@ namespace TreasureHunt.App.Views
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                progressBar.Value += 1;
+                progressBar.Value -= 1;
             });
         }
 
@@ -95,7 +95,8 @@ namespace TreasureHunt.App.Views
             Debug.WriteLine("refresh");
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => 
             {
-                progressBar.Value = 0;
+                progressBar.Value = 10;
+                timeTextBlock.Text = args.Position.Coordinate.Timestamp.ToString();
             });
         }
 
