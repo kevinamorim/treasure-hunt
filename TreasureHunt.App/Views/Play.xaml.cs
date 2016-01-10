@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Navigation;
 using System;
 using Windows.UI.Core;
 using Windows.UI;
+using Windows.System.Display;
 
 namespace TreasureHunt.App.Views
 {
@@ -49,6 +50,11 @@ namespace TreasureHunt.App.Views
             get; set;
         }
 
+        private DisplayRequest KeepScreenOnRequest
+        {
+            get; set;
+        }
+
         public Play()
         {
             InitializeComponent();
@@ -56,6 +62,9 @@ namespace TreasureHunt.App.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            KeepScreenOnRequest = new DisplayRequest();
+            KeepScreenOnRequest.RequestActive();
+
             Game = (Game)e.Parameter;
 
             LoadSettings();
@@ -191,6 +200,7 @@ namespace TreasureHunt.App.Views
 
         private void GameOver()
         {
+            KeepScreenOnRequest.RequestRelease();
             gameOverTextBlock.Visibility = Visibility.Visible;
         }
 

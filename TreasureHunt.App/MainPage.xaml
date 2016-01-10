@@ -9,10 +9,11 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <StackPanel Grid.Row="1" Margin="10, 50, 10, 0" HorizontalAlignment="Center">
-            <Button Margin="0, 10, 0, 0" Click="Button_Click">New Game</Button>
-            <Button Margin="0, 10, 0, 0" Click="Button_Click">View Games</Button>
-            <Button Margin="0, 10, 0, 0" Click="Button_Click">Configure</Button>
+        <StackPanel Grid.Row="1" Margin="10, 50, 10, 0">
+            <TextBlock Margin="0,50,0,0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="50">Treasure Hunt</TextBlock>
+            <Button Margin="0, 50, 0, 0" HorizontalAlignment="Center" Click="Button_Click" Width="150">New Game</Button>
+            <Button Margin="0, 30, 0, 0" HorizontalAlignment="Center" Click="Button_Click" Width="150">View Games</Button>
+            <Button Margin="0, 30, 0, 0" HorizontalAlignment="Center" Click="Button_Click" Width="150">Configure</Button>
         </StackPanel>
     </Grid>
 </Page>
