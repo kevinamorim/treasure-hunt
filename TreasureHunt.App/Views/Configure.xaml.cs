@@ -27,7 +27,7 @@ namespace TreasureHunt.App.Views
 
             if (ApplicationData.Current.LocalSettings.Values.ContainsKey("accuracy"))
             {
-                accuracySlider.Value = (double) ApplicationData.Current.LocalSettings.Values["accuracy"];
+                accuracySlider.Value = (double) ApplicationData.Current.LocalSettings.Values["desiredAccuracy"];
             }
 
             if (ApplicationData.Current.LocalSettings.Values.ContainsKey("updateInterval"))

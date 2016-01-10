@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TreasureHunt.App.Models;
 using Windows.Devices.Geolocation;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -13,6 +14,7 @@ namespace TreasureHunt.App.Views
 {
     public sealed partial class NewGame : Page
     {
+
         public NewGame()
         {
             InitializeComponent();
@@ -38,6 +40,12 @@ namespace TreasureHunt.App.Views
 
         private async Task<Game> CreateGame()
         {
+
+            List<int> distanceInMeters = new List<int>(new int[] { 100, 500, 1000 });
+
+            var localSettings = ApplicationData.Current.LocalSettings;
+            uint accuracyInMeters = localSettings.Values.ContainsKey("desiredAccuracy") ? Convert.ToUInt32(localSettings.Values["desiredAccuracy"]) : 50;
+
             var game = new Game()
             {
                 Id = Guid.NewGuid(),
@@ -52,7 +60,7 @@ namespace TreasureHunt.App.Views
             {
                 case GeolocationAccessStatus.Allowed:
 
-                    Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters = 1 };
+                    Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters = accuracyInMeters };
 
                     Geoposition pos = await geolocator.GetGeopositionAsync();
                     Geopoint myLocation = pos.Coordinate.Point;
@@ -61,7 +69,10 @@ namespace TreasureHunt.App.Views
                     basicGeoPosition.Latitude = pos.Coordinate.Latitude;
                     basicGeoPosition.Longitude = pos.Coordinate.Longitude;
 
-                    BasicGeoposition destinationBasicGeoPosition = PickRandomLocation(basicGeoPosition, 1, 50);
+                    BasicGeoposition destinationBasicGeoPosition = PickRandomLocation(basicGeoPosition, 
+                        (int)(distanceInMeters[game.Difficulty] + accuracyInMeters), 
+                        (int)(distanceInMeters[game.Difficulty] + accuracyInMeters));
+
                     Geopoint destination = new Geopoint(destinationBasicGeoPosition);
 
                     game.OriginalLatitude = myLocation.Position.Latitude;
@@ -92,7 +103,7 @@ namespace TreasureHunt.App.Views
                 task.Wait();
             }
 
-            App.RootFrame.Navigate(typeof(MainPage));
+            App.RootFrame.Navigate(typeof(Play), game);
 
             return game;
         }

@@ -29,6 +29,11 @@ namespace TreasureHunt.Api.Models
             get; set;
         }
 
+        public DateTime FinishedAt
+        {
+            get; set;
+        }
+
         public double OriginalLatitude
         {
             get; set;
