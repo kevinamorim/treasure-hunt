@@ -9,6 +9,8 @@ using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
 namespace TreasureHunt.App.Views
 {
@@ -20,13 +22,25 @@ namespace TreasureHunt.App.Views
             InitializeComponent();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            UsernameInput.KeyUp += TextBox_KeyUp;
+        }
+
         private async void Button_Click(object sender, RoutedEventArgs args) 
         {
             switch ((sender as Button).Content.ToString())
             {
                 case "Start":
+
+                    UsernameInput.IsEnabled = false;
+                    DifficultyInput.IsEnabled = false;
+
                     startBtn.Visibility = Visibility.Collapsed;
                     progressRing.IsActive = true;
+
+                    progressRing.Visibility = Visibility.Visible;
+                    loadingTextBlock.Visibility = Visibility.Visible;
                     Game game = await CreateGame();
 
                     App.RootFrame.Navigate(typeof(Play), game);
@@ -68,7 +82,7 @@ namespace TreasureHunt.App.Views
                     basicGeoPosition.Latitude = pos.Coordinate.Latitude;
                     basicGeoPosition.Longitude = pos.Coordinate.Longitude;
 
-                    BasicGeoposition destinationBasicGeoPosition = PickRandomLocation(basicGeoPosition, 
+                    BasicGeoposition destinationBasicGeoPosition = GeoHelper.PickRandomLocation(basicGeoPosition, 
                         (int)(distanceInMeters[game.Difficulty] + accuracyInMeters), 
                         (int)(distanceInMeters[game.Difficulty] + accuracyInMeters));
 
@@ -105,46 +119,12 @@ namespace TreasureHunt.App.Views
             return game;
         }
 
-        private BasicGeoposition PickRandomLocation(BasicGeoposition center, int minRadius, int maxRadius)
+        private void TextBox_KeyUp(object sender, KeyRoutedEventArgs args)
         {
-            Random random = new Random();
-            int radius = random.Next(minRadius, maxRadius);
-
-            List<BasicGeoposition> positions = CalculateCircle(center, radius);
-
-            int index = random.Next(positions.Count);
-
-            return positions[index];
-        }
-
-        private List<BasicGeoposition> CalculateCircle(BasicGeoposition center, int radius)
-        {
-
-            List<BasicGeoposition> geoPositions = new List<BasicGeoposition>();
-            double earthRadius = 6371000D;
-            double circunference = 2D * Math.PI * earthRadius;
-
-            for (int i = 0; i <= 360; i++)
+            if (args.Key == Windows.System.VirtualKey.Enter)
             {
-                double bearing = ToRad(i);
-                double circunferenceLatitudeCorrected = 2D * Math.PI * Math.Cos(ToRad(center.Latitude)) * earthRadius;
-                double lat1 = circunference / 360D * center.Latitude;
-                double lon1 = circunferenceLatitudeCorrected / 360D * center.Longitude;
-                double lat2 = lat1 + Math.Sin(bearing) * radius;
-                double lon2 = lon1 + Math.Cos(bearing) * radius;
-
-                BasicGeoposition newBasicPosition = new BasicGeoposition();
-                newBasicPosition.Latitude = lat2 / (circunference / 360D);
-                newBasicPosition.Longitude = lon2 / (circunferenceLatitudeCorrected / 360D);
-                geoPositions.Add(newBasicPosition);
+                Windows.UI.ViewManagement.InputPane.GetForCurrentView().TryHide();
             }
-
-            return geoPositions;
-        }
-
-        private double ToRad(double degrees)
-        {
-            return degrees * (Math.PI / 180);
         }
 
     }

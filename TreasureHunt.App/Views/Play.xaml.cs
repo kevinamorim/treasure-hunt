@@ -141,6 +141,9 @@ namespace TreasureHunt.App.Views
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 progressBar.Value = UpdateIntervalInSeconds;
+                progressBar.Visibility = Visibility.Visible;
+                updateProgressRing.Visibility = Visibility.Collapsed;
+                updateProgressRing.IsActive = false;
                 Geopoint currentPosition = new Geopoint(new BasicGeoposition() { Latitude = args.Position.Coordinate.Latitude, Longitude = args.Position.Coordinate.Longitude });
                 SetCurrentPosition(currentPosition);
             });
@@ -208,7 +211,16 @@ namespace TreasureHunt.App.Views
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                progressBar.Value -= 1;
+                if (progressBar.Value <= 0)
+                {
+                    progressBar.Visibility = Visibility.Collapsed;
+                    updateProgressRing.Visibility = Visibility.Visible;
+                    updateProgressRing.IsActive = true;
+                }
+                else
+                {
+                    progressBar.Value -= 1;
+                }
             });
         }
 

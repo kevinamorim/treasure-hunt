@@ -8,16 +8,17 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
+        <StackPanel VerticalAlignment="Center">
             <TextBox x:Name="UsernameInput" Width="280" PlaceholderText="Your name..." TextAlignment="Center" Margin="0, 20, 0, 0" />
             <ComboBox x:Name="DifficultyInput" HorizontalAlignment="Center" Width="280" Margin="0, 10, 0, 0">
-                <ComboBoxItem HorizontalContentAlignment="Center" Width="280" Content="Normal" Margin="0, 0, 27, 0"></ComboBoxItem>
-                <ComboBoxItem HorizontalContentAlignment="Center" Width="280" Content="Hard" Margin="0, 0, 27, 0"></ComboBoxItem>
-                <ComboBoxItem HorizontalContentAlignment="Center" Width="280" Content="Insane" Margin="0, 0, 27, 0"></ComboBoxItem>
+                <ComboBoxItem HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="280" Content="Normal" Margin="0, 0, 27, 0" IsSelected="True"></ComboBoxItem>
+                <ComboBoxItem HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="280" Content="Hard" Margin="0, 0, 27, 0"></ComboBoxItem>
+                <ComboBoxItem HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="280" Content="Insane" Margin="0, 0, 27, 0"></ComboBoxItem>
             </ComboBox>
-            <Button x:Name="startBtn" HorizontalAlignment="Center" Width="100" Margin="0, 10, 0, 0" Click="Button_Click">Start</Button>
+            <Button x:Name="startBtn" HorizontalAlignment="Center" Width="100" Margin="0, 30, 0, 0" Click="Button_Click">Start</Button>
 
-            <ProgressRing Margin="0,50,0,0" x:Name="progressRing" IsActive="False" Height="60" Width="60" />
+            <ProgressRing x:Name="progressRing" Margin="0,50,0,0" IsActive="False" Visibility="Collapsed" Height="60" Width="60" />
+            <TextBlock x:Name="loadingTextBlock" Margin="0,20,0,0" HorizontalAlignment="Center" FontWeight="Bold" Visibility="Collapsed">Starting game...</TextBlock>
 
         </StackPanel>
     </Grid>

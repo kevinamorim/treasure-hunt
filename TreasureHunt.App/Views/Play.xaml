@@ -28,6 +28,7 @@
                 MapServiceToken="Ifw2uuRZDEmNhf49T6I3~z3st-zF9r5SreWqzPoRVTg~AvWAXUaEno7koHNd7oYfGyA4gntUBbd4efJr9pnihp0edS8y05d_1p0ib86MJVVv" Height="300" HorizontalAlignment="Stretch" Visibility="Collapsed"/>
             <TextBlock x:Name="nextUpdateTextBlock" HorizontalAlignment="Center" Margin="0,10,0,0" FontWeight="Bold" Visibility="Collapsed">Next update:</TextBlock>
             <ProgressBar x:Name="progressBar" Margin="0, 10, 0, 0" Height="30" Width="200" Visibility="Collapsed" />
+            <ProgressRing x:Name="updateProgressRing" Margin="0,10,0,0" Height="30" Width="30" Visibility="Collapsed" IsActive="False" />
             <Button Click="Button_Click" HorizontalAlignment="Center" Margin="0,10,0,0" Width="100">Finish</Button>
 
 
