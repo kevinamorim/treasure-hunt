@@ -1,4 +1,5 @@
 ﻿using TreasureHunt.App.Views;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,6 +16,7 @@ namespace TreasureHunt.App
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
             switch ((sender as Button).Content.ToString())
             {
                 case "Create User":
@@ -39,5 +41,7 @@ namespace TreasureHunt.App
                     break;
             }
         }
+
+
     }
 }

@@ -127,18 +127,6 @@ namespace TreasureHunt.App.Views
             });
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            switch ((sender as Button).Content.ToString())
-            {
-                case "Go Back":
-                    App.RootFrame.Navigate(typeof(MainPage));
-                    break;
-                default:
-                    break;
-            }
-        }
-
         private void LoadSettings()
         {
 

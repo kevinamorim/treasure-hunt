@@ -10,7 +10,6 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
-            <Button HorizontalAlignment="Center" Margin="0,50,0,50" Click="Button_Click" Content="Go Back"/>
             <ProgressRing x:Name="progressRing" HorizontalAlignment="Center" Height="60" Width="60" IsActive="True" />
             <TextBlock x:Name="progressMessage" Margin="0, 30, 0, 0" HorizontalAlignment="Center">Getting your location, this may take a while...</TextBlock>
             <Maps:MapControl

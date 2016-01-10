@@ -1,11 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System;
 using TreasureHunt.App.Models;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -16,9 +13,6 @@ namespace TreasureHunt.App
     sealed partial class App : Application
     {
 
-        //public static Uri BaseUri = new Uri("http://localhost:56856/api/");
-        public static Uri BaseUri = new Uri("http://treasure-hunt.azurewebsites.net/api/");
-
         public static Frame RootFrame
         {
             get; set;
@@ -27,6 +21,8 @@ namespace TreasureHunt.App
         {
             get; set;
         }
+
+        public static Uri BaseUri = new Uri("http://treasure-hunt.azurewebsites.net/api/");
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -83,6 +79,11 @@ namespace TreasureHunt.App
                 // parameter
                 RootFrame.Navigate(typeof(MainPage), e.Arguments);
             }
+
+            // Back button
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+
             // Ensure the current window is active
             Window.Current.Activate();
         }
@@ -110,5 +111,17 @@ namespace TreasureHunt.App
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            if (rootFrame.CanGoBack)
+            {
+                e.Handled = true;
+                rootFrame.GoBack();
+            }
+        }
+
     }
 }

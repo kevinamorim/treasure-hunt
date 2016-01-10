@@ -24,8 +24,5 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Margin="152,350,134,-350">
-            <Button Click="Button_Click">Go Back</Button>
-        </StackPanel>
     </Grid>
 </Page>

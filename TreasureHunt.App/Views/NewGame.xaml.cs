@@ -26,15 +26,11 @@ namespace TreasureHunt.App.Views
             {
                 case "Start":
                     startBtn.Visibility = Visibility.Collapsed;
-                    goBackBtn.Visibility = Visibility.Collapsed;
                     progressRing.IsActive = true;
                     Game game = await CreateGame();
 
                     App.RootFrame.Navigate(typeof(Play), game);
 
-                    break;
-                case "Go Back":
-                    App.RootFrame.Navigate(typeof(MainPage));
                     break;
                 default:
                     break;

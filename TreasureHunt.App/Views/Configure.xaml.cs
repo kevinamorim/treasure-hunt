@@ -61,9 +61,6 @@ namespace TreasureHunt.App.Views
                     App.RootFrame.Navigate(typeof(MainPage));
 
                     break;
-                case "Go Back":
-                    App.RootFrame.Navigate(typeof(MainPage));
-                    break;
                 default:
                     break;
             }

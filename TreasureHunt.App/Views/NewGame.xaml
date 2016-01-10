@@ -16,7 +16,6 @@
                 <ComboBoxItem HorizontalContentAlignment="Center" Width="280" Content="Insane" Margin="0, 0, 27, 0"></ComboBoxItem>
             </ComboBox>
             <Button x:Name="startBtn" HorizontalAlignment="Center" Width="100" Margin="0, 10, 0, 0" Click="Button_Click">Start</Button>
-            <Button x:Name="goBackBtn" HorizontalAlignment="Center" Width="100" Margin="0, 10, 0, 0" Click="Button_Click">Go Back</Button>
 
             <ProgressRing Margin="0,50,0,0" x:Name="progressRing" IsActive="False" Height="60" Width="60" />
 

@@ -37,17 +37,5 @@ namespace TreasureHunt.App
                 listView.ItemsSource = JsonConvert.DeserializeObject<List<User>>(response);
             }
         }
-
-        private void Button_Click(Object sender, RoutedEventArgs e)
-        {
-            switch ((sender as Button).Content.ToString())
-            {
-                case "Go Back":
-                    App.RootFrame.Navigate(typeof (MainPage), true);
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 }

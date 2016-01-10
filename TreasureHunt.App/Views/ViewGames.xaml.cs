@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TreasureHunt.App.Models;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -13,7 +12,7 @@ namespace TreasureHunt.App.Views
     {
         public ViewGames()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs args)
@@ -30,16 +29,5 @@ namespace TreasureHunt.App.Views
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            switch ((sender as Button).Content.ToString())
-            {
-                case "Go Back":
-                    App.RootFrame.Navigate(typeof(MainPage));
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 }

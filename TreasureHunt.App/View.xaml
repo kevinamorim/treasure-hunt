@@ -37,10 +37,6 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-
-                <Button Click="Button_Click" Content="Go Back" HorizontalAlignment="Center" />
-
-
             </StackPanel>
         </Grid>
 

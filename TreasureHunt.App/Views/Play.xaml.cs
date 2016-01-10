@@ -39,6 +39,11 @@ namespace TreasureHunt.App.Views
             get; set;
         }
 
+        private Game Game
+        {
+            get; set;
+        }
+
         public Play()
         {
             InitializeComponent();
@@ -46,7 +51,7 @@ namespace TreasureHunt.App.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            Game game = (Game)e.Parameter;
+            Game = (Game)e.Parameter;
 
             LoadSettings();
 
@@ -58,8 +63,8 @@ namespace TreasureHunt.App.Views
 
                     InitializeGeolocator();
 
-                    Geopoint currentPosition = new Geopoint(new BasicGeoposition() { Latitude = game.OriginalLatitude, Longitude = game.OriginalLongitude });
-                    TargetPosition = new Geopoint(new BasicGeoposition() { Latitude = game.TargetLatitude, Longitude = game.TargetLongitude });
+                    Geopoint currentPosition = new Geopoint(new BasicGeoposition() { Latitude = Game.OriginalLatitude, Longitude = Game.OriginalLongitude });
+                    TargetPosition = new Geopoint(new BasicGeoposition() { Latitude = Game.TargetLatitude, Longitude = Game.TargetLongitude });
 
                     DrawMap(currentPosition, 15);
                     DrawUserPositionIcon(currentPosition);
@@ -94,8 +99,11 @@ namespace TreasureHunt.App.Views
         {
             switch ((sender as Button).Content.ToString())
             {
-                case "Exit":
-                    App.RootFrame.Navigate(typeof(MainPage));
+                case "Finish":
+
+                    Game.FinishedAt = DateTime.Now;
+                    App.RootFrame.Navigate(typeof(GameOver), Game);
+
                     break;
                 default:
                     break;
