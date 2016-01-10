@@ -24,6 +24,11 @@ namespace TreasureHunt.App.Views
             get; set;
         }
 
+        private bool ShowTargetCircle
+        {
+            get; set;
+        }
+
         private MapIcon UserLocationIcon
         {
             get; set;
@@ -68,7 +73,11 @@ namespace TreasureHunt.App.Views
 
                     DrawMap(currentPosition, 15);
                     DrawUserPositionIcon(currentPosition);
-                    DrawTargetCircle(TargetPosition);
+
+                    if (ShowTargetCircle)
+                    {
+                        DrawTargetCircle(TargetPosition);
+                    }
 
                     DoneLoadingMap();
 
@@ -198,6 +207,7 @@ namespace TreasureHunt.App.Views
 
             uint defaultDesiredAccuracy = 50;
             uint defaultUpdateInterval = 10;
+            bool defaultShowTargetCircle = false;
 
             var localSettings = ApplicationData.Current.LocalSettings;
 
@@ -206,6 +216,9 @@ namespace TreasureHunt.App.Views
 
             var updateInterval = localSettings.Values["updateInterval"];
             UpdateIntervalInSeconds = (updateInterval == null) ? defaultUpdateInterval : Convert.ToUInt32(updateInterval);
+
+            var showTargetCircle = localSettings.Values["showTargetCircle"];
+            ShowTargetCircle = (showTargetCircle == null) ? defaultShowTargetCircle : (bool)showTargetCircle;
 
         }
     }

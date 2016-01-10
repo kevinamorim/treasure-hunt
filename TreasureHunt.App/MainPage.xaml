@@ -10,11 +10,8 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <StackPanel Grid.Row="1" Margin="10, 50, 10, 0" HorizontalAlignment="Center">
-            <Button Margin="0, 10, 0, 0" Click="Button_Click">Create User</Button>
-            <Button Margin="0, 10, 0, 0" Click="Button_Click">Read Users</Button>
             <Button Margin="0, 10, 0, 0" Click="Button_Click">New Game</Button>
             <Button Margin="0, 10, 0, 0" Click="Button_Click">View Games</Button>
-            <Button Margin="0, 10, 0, 0" Click="Button_Click">Test Map</Button>
             <Button Margin="0, 10, 0, 0" Click="Button_Click">Configure</Button>
         </StackPanel>
     </Grid>

@@ -19,20 +19,11 @@ namespace TreasureHunt.App
 
             switch ((sender as Button).Content.ToString())
             {
-                case "Create User":
-                    App.RootFrame.Navigate(typeof(Create), true);
-                    break;
-                case "Read Users":
-                    App.RootFrame.Navigate(typeof(View));
-                    break;
                 case "New Game":
                     App.RootFrame.Navigate(typeof(NewGame));
                     break;
                 case "View Games":
                     App.RootFrame.Navigate(typeof(ViewGames));
-                    break;
-                case "Test Map":
-                    App.RootFrame.Navigate(typeof(TestMap));
                     break;
                 case "Configure":
                     App.RootFrame.Navigate(typeof(Configure));

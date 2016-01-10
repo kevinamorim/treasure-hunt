@@ -16,6 +16,9 @@ namespace TreasureHunt.App.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+
+            var localSettings = ApplicationData.Current.LocalSettings;
+
             if (App.BaseUri == new Uri("http://localhost:56856/api/"))
             {
                 networkBtn_localhost.IsChecked = true;
@@ -25,14 +28,19 @@ namespace TreasureHunt.App.Views
                 networkBtn_azure.IsChecked = true;
             }
 
-            if (ApplicationData.Current.LocalSettings.Values.ContainsKey("accuracy"))
+            if (localSettings.Values.ContainsKey("desiredAccuracy"))
             {
-                accuracySlider.Value = (double) ApplicationData.Current.LocalSettings.Values["desiredAccuracy"];
+                accuracySlider.Value = (double) localSettings.Values["desiredAccuracy"];
             }
 
-            if (ApplicationData.Current.LocalSettings.Values.ContainsKey("updateInterval"))
+            if (localSettings.Values.ContainsKey("updateInterval"))
             {
-                updateIntervalSlider.Value = (double) ApplicationData.Current.LocalSettings.Values["updateInterval"];
+                updateIntervalSlider.Value = (double)localSettings.Values["updateInterval"];
+            }
+
+            if (localSettings.Values.ContainsKey("showTargetCircle"))
+            {
+                showTargetCircleCheckbox.IsChecked = (bool) localSettings.Values["showTargetCircle"];
             }
         }
 
@@ -44,6 +52,7 @@ namespace TreasureHunt.App.Views
 
                     SaveAccuracy();
                     SaveUpdateInterval();
+                    SaveShowTargetCircle();
 
                     if ((bool) networkBtn_localhost.IsChecked)
                     {
@@ -95,6 +104,14 @@ namespace TreasureHunt.App.Views
 
             var localSettings = ApplicationData.Current.LocalSettings;
             localSettings.Values["updateInterval"] = updateInterval;
+        }
+
+        private void SaveShowTargetCircle()
+        {
+            bool showTargetCircle = (bool) showTargetCircleCheckbox.IsChecked;
+
+            var localSettings = ApplicationData.Current.LocalSettings;
+            localSettings.Values["showTargetCircle"] = showTargetCircle;
         }
     }
 }
