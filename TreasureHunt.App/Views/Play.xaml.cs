@@ -34,6 +34,11 @@ namespace TreasureHunt.App.Views
             get; set;
         }
 
+        private Geopoint TargetPosition
+        {
+            get; set;
+        }
+
         public Play()
         {
             InitializeComponent();
@@ -54,11 +59,11 @@ namespace TreasureHunt.App.Views
                     InitializeGeolocator();
 
                     Geopoint currentPosition = new Geopoint(new BasicGeoposition() { Latitude = game.OriginalLatitude, Longitude = game.OriginalLongitude });
-                    Geopoint targetPosition = new Geopoint(new BasicGeoposition() { Latitude = game.TargetLatitude, Longitude = game.TargetLongitude });
+                    TargetPosition = new Geopoint(new BasicGeoposition() { Latitude = game.TargetLatitude, Longitude = game.TargetLongitude });
 
                     DrawMap(currentPosition, 15);
                     DrawUserPositionIcon(currentPosition);
-                    DrawTargetCircle(targetPosition);
+                    DrawTargetCircle(TargetPosition);
 
                     DoneLoadingMap();
 
@@ -118,7 +123,19 @@ namespace TreasureHunt.App.Views
         private void SetCurrentPosition(Geopoint currentPosition)
         {
             MainMap.Center = currentPosition;
-            UserLocationIcon.Location = currentPosition; 
+            UserLocationIcon.Location = currentPosition;
+
+            var currentBasicGeoposition = new BasicGeoposition() { Latitude = currentPosition.Position.Latitude, Longitude = currentPosition.Position.Longitude };
+            var targetBasicGeoposition = new BasicGeoposition() { Latitude = TargetPosition.Position.Latitude, Longitude = TargetPosition.Position.Longitude };
+
+            var distanceInMeters = GeoHelper.CalculateDistance(currentBasicGeoposition, targetBasicGeoposition) * 1000;
+
+            if (distanceInMeters <= DesiredAccuracyInMeters)
+            {
+                GameOver();
+            }
+
+            distanceTextBlock.Text = "Distance: " + distanceInMeters + " meters ";
         }
 
         private void DrawMap(Geopoint center, int zoomLevel, bool landmarksVisible = false)
@@ -140,7 +157,7 @@ namespace TreasureHunt.App.Views
 
         private void DrawTargetCircle(Geopoint targetPosition)
         {
-            MapPolygon targetPositionCircle = MapHelper.DrawCircle(GeoHelper.CalculateCircle(targetPosition.Position, (int)DesiredAccuracyInMeters), Colors.AliceBlue, Colors.BurlyWood);
+            MapPolygon targetPositionCircle = MapHelper.DrawCircle(GeoHelper.CalculateCircle(targetPosition.Position, (int)DesiredAccuracyInMeters), Colors.Chocolate, Colors.BurlyWood);
             MainMap.MapElements.Add(targetPositionCircle);
         }
 
@@ -149,9 +166,15 @@ namespace TreasureHunt.App.Views
             progressRing.IsActive = false;
             progressRing.Visibility = Visibility.Collapsed;
             progressMessage.Visibility = Visibility.Collapsed;
+            distanceTextBlock.Visibility = Visibility.Visible;
             MainMap.Visibility = Visibility.Visible;
             nextUpdateTextBlock.Visibility = Visibility.Visible;
             progressBar.Visibility = Visibility.Visible;
+        }
+
+        private void GameOver()
+        {
+            gameOverTextBlock.Visibility = Visibility.Visible;
         }
 
         private async void updateProgress(object sender, object e)

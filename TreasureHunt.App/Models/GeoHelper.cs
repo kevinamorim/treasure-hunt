@@ -45,6 +45,22 @@ namespace TreasureHunt.App.Models
 
         }
 
+        public static double CalculateDistance(BasicGeoposition source, BasicGeoposition target)
+        {
+            var r = 6371;
+            var dLat = ToRad((target.Latitude - source.Latitude));
+            var dLon = ToRad((target.Longitude - source.Longitude));
+
+            var lat1 = ToRad(source.Latitude);
+            var lat2 = ToRad(target.Latitude);
+
+            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) + Math.Sin(dLon / 2) * Math.Sin(dLon / 2) * Math.Cos(lat1) * Math.Cos(lat2);
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            var d = r * c;
+
+            return d;
+        }
+
         private static double ToRad(double degrees)
         {
             return degrees * (Math.PI / 180);

@@ -11,17 +11,16 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <StackPanel  HorizontalAlignment="Left" Grid.Row="0">
-            <TextBlock x:Name="startedAtTextBlock" HorizontalAlignment="Left" Margin="50,50,0,0">no data</TextBlock>
-        </StackPanel>
-
-        <StackPanel HorizontalAlignment="Center" Margin="0,50,0,0" Grid.Row="1">
+        
+        <StackPanel HorizontalAlignment="Center" Margin="0,50,0,0" Grid.Row="0">
             <ProgressRing x:Name="progressRing" HorizontalAlignment="Center" Height="60" Width="60" IsActive="True" />
             <TextBlock x:Name="progressMessage" Margin="0, 30, 0, 0" HorizontalAlignment="Center">Getting your location, this may take a while...</TextBlock>
 
+            <TextBlock x:Name="gameOverTextBlock" HorizontalAlignment="Center" FontWeight="Bold" Visibility="Collapsed" Margin="0,20,0,0">YOU REACHED YOUR DESTINATION!!!!!</TextBlock>
+
+            <TextBlock x:Name="distanceTextBlock" HorizontalAlignment="Center" Margin="0,20,0,20" Visibility="Collapsed">Distance: </TextBlock>
+         
             <Maps:MapControl
                 x:Name="MainMap"
                 ZoomInteractionMode="GestureAndControl"
@@ -29,8 +28,9 @@
                 MapServiceToken="Ifw2uuRZDEmNhf49T6I3~z3st-zF9r5SreWqzPoRVTg~AvWAXUaEno7koHNd7oYfGyA4gntUBbd4efJr9pnihp0edS8y05d_1p0ib86MJVVv" Height="346" Width="500"  HorizontalAlignment="Center" Visibility="Collapsed"/>
             <TextBlock x:Name="nextUpdateTextBlock" HorizontalAlignment="Center" Margin="0,10,0,0" FontWeight="Bold" Visibility="Collapsed">Next update:</TextBlock>
             <ProgressBar x:Name="progressBar" Margin="0, 30, 0, 0" Height="30" Width="200" Visibility="Collapsed" />
+            <Button Click="Button_Click" HorizontalAlignment="Center" Margin="0,10,0,0" Width="100">Exit</Button>
 
-            <Button Click="Button_Click" HorizontalAlignment="Center" Margin="0,50,0,0" Width="100">Exit</Button>
+            
         </StackPanel>
 
 
