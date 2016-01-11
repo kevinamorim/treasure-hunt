@@ -68,6 +68,11 @@ namespace TreasureHunt.App.Views
                 StartedAt = DateTime.Now
             };
 
+            User user = new User()
+            {
+                Username = UsernameInput.Text
+            };
+
             var accessStatus = await Geolocator.RequestAccessAsync();
             switch (accessStatus)
             {
@@ -75,6 +80,7 @@ namespace TreasureHunt.App.Views
 
                     Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters = accuracyInMeters };
 
+                    loadingTextBlock.Text = "Getting your location...";
                     Geoposition pos = await geolocator.GetGeopositionAsync();
                     Geopoint myLocation = pos.Coordinate.Point;
 
@@ -106,14 +112,26 @@ namespace TreasureHunt.App.Views
             using (var client = new HttpClient())
             {
                 var content = JsonConvert.SerializeObject(game);
+                var userContent = JsonConvert.SerializeObject(user);
 
-                // Send a POST
-                Task task = Task.Run(async () =>
+                Task registerUser = Task.Run(async () =>
+                {
+                    var request = new StringContent(userContent, Encoding.UTF8, "application/json");
+                    await client.PostAsync(App.BaseUri + "users", request);
+                });
+
+                
+                Task registerGame = Task.Run(async () =>
                 {
                     var request = new StringContent(content, Encoding.UTF8, "application/json");
                     await client.PostAsync(App.BaseUri + "games", request);
                 });
-                task.Wait();
+
+                loadingTextBlock.Text = "Registering user...";
+                registerUser.Wait();
+
+                loadingTextBlock.Text = "Creating game...";
+                registerGame.Wait();
             }
 
             return game;
