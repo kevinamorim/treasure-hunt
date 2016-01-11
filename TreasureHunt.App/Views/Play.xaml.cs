@@ -199,6 +199,7 @@ namespace TreasureHunt.App.Views
             MainMap.Visibility = Visibility.Visible;
             nextUpdateTextBlock.Visibility = Visibility.Visible;
             progressBar.Visibility = Visibility.Visible;
+            finishButton.Visibility = Visibility.Visible;
         }
 
         private void GameOver()

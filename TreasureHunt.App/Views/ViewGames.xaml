@@ -9,7 +9,8 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel HorizontalAlignment="Center" Margin="0,20,0,0">
-            <ListView x:Name="listView">
+            <TextBlock FontWeight="Bold" FontSize="30">View Games</TextBlock>
+            <ListView x:Name="listView" Margin="0,20,0,0">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid Height="40" Padding="10">
