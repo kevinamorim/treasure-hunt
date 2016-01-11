@@ -164,7 +164,7 @@ namespace TreasureHunt.App.Views
                 GameOver();
             }
 
-            distanceTextBlock.Text = "Distance: " + distanceInMeters + " meters ";
+            distanceTextBlock.Text = "Distance: " + Math.Round(distanceInMeters, 0) + " meters ";
         }
 
         private void DrawMap(Geopoint center, int zoomLevel, bool landmarksVisible = false)

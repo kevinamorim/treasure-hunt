@@ -17,10 +17,6 @@ namespace TreasureHunt.App
         {
             get; set;
         }
-        public static User ActiveUser
-        {
-            get; set;
-        }
 
         public static Uri BaseUri = new Uri("http://treasure-hunt.azurewebsites.net/api/");
 

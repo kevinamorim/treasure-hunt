@@ -7,19 +7,7 @@ namespace TreasureHunt.Api.Controllers
 {
     public class GamesController : ApiController
     {
-        private static List<Game> games = new List<Game>
-        {
-            new Game()
-            {
-                Id = Guid.NewGuid(),
-                Username = "testUser",
-                Difficulty = 1,
-                Finished = false,
-                StartedAt = DateTime.Now,
-                OriginalLatitude = 0,
-                OriginalLongitude = 0
-            },
-        };
+        private static List<Game> games = new List<Game>();
 
         // GET api/games
         public IEnumerable<Game> Get()
@@ -40,8 +28,15 @@ namespace TreasureHunt.Api.Controllers
         }
 
         // PUT api/games
-        public void Put(int id, [FromBody]string value)
+        public void Put(Game game)
         {
+            Game originalGame = games.Find(m => m.Id == game.Id);
+            if (originalGame != null)
+            {
+                originalGame.Finished = true;
+                originalGame.FinishedAt = game.FinishedAt;
+            }
+
         }
 
         // DELETE api/games

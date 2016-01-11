@@ -104,7 +104,6 @@
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GeoHelper.cs" />
     <Compile Include="Models\MapHelper.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Configure.xaml.cs">
       <DependentUpon>Configure.xaml</DependentUpon>

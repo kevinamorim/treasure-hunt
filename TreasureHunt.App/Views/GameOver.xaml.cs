@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using TreasureHunt.App.Models;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
@@ -25,6 +29,21 @@ namespace TreasureHunt.App.Views
 
             string[] difficulties = { "Normal", "Hard", "Insane" };
             difficultyTextBlock.Text += " " + difficulties[game.Difficulty];
+
+            using (var client = new HttpClient())
+            {
+                var content = JsonConvert.SerializeObject(game);
+
+                // Send a POST
+                Task task = Task.Run(async () =>
+                {
+                    var request = new StringContent(content, Encoding.UTF8, "application/json");
+                    await client.PutAsync(App.BaseUri + "games", request);
+                });
+                task.Wait();
+            }
+
+
 
         }
 
