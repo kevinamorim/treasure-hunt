@@ -8,17 +8,19 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
+        <StackPanel HorizontalAlignment="Center" Margin="0,20,0,0">
             <ListView x:Name="listView">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid Height="40" Padding="10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/> 
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding Difficulty}" Grid.Column="0"></TextBlock>
                             <TextBlock Text="{Binding Username}" Grid.Column="1"></TextBlock>
+                            <TextBlock Text="{Binding Finished}" Grid.Column="2"></TextBlock>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

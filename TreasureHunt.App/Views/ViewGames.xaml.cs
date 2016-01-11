@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -25,7 +26,42 @@ namespace TreasureHunt.App.Views
                     response = await client.GetStringAsync(App.BaseUri + "games");
                 });
                 task.Wait();
-                listView.ItemsSource = JsonConvert.DeserializeObject<List<Game>>(response);
+
+                List<Game> games = JsonConvert.DeserializeObject<List<Game>>(response);
+                List<GameView> gamesViews = new List<GameView>();
+
+                string[] difficulties = { "Normal", "Hard", "Insane" };
+
+                foreach (var item in games)
+                {
+                    GameView gameView = new GameView()
+                    {
+                        Username = item.Username,
+                        Difficulty = difficulties[item.Difficulty]
+                    };
+
+                    string finished = "";
+
+                    if (item.Finished)
+                    {
+                        TimeSpan timespan = item.FinishedAt - item.StartedAt;
+
+                        finished = timespan.Days + "d " + timespan.Hours + "h " + timespan.Minutes + "m " + timespan.Seconds + "s ";
+                    }
+                    else
+                    {
+                        finished = "Not finished";
+                    }
+
+                    gameView.Finished = finished;
+
+                    gamesViews.Add(gameView);
+
+                }
+
+
+                listView.ItemsSource = gamesViews;
+                //listView.ItemsSource = JsonConvert.DeserializeObject<List<Game>>(response);
             }
         }
 
