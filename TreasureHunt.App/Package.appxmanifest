@@ -3,7 +3,7 @@
   <Identity Name="226408fd-dcbd-4a56-a44f-0c3179e2b7bf" Publisher="CN=Kevin" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="226408fd-dcbd-4a56-a44f-0c3179e2b7bf" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>TreasureHunt.App</DisplayName>
+    <DisplayName>TreasureHunt</DisplayName>
     <PublisherDisplayName>Kevin Amorim</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="TreasureHunt.App.App">
-      <uap:VisualElements DisplayName="TreasureHunt.App" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="TreasureHunt.App" BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="TreasureHunt.App" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="TreasureHunt" BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

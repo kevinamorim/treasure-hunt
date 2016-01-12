@@ -62,6 +62,7 @@ namespace TreasureHunt.App.Views
             var game = new Game()
             {
                 Id = Guid.NewGuid(),
+                Name = GameNameInput.Text,
                 Username = UsernameInput.Text,
                 Difficulty = DifficultyInput.SelectedIndex,
                 Finished = false,

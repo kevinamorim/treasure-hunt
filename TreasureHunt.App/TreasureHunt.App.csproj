@@ -104,6 +104,7 @@
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameView.cs" />
     <Compile Include="Models\GeoHelper.cs" />
+    <Compile Include="Models\JoinGameViewModel.cs" />
     <Compile Include="Models\MapHelper.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,6 +134,7 @@
     <None Include="TreasureHunt.App_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\logo.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

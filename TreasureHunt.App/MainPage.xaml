@@ -5,12 +5,18 @@
     xmlns:local="using:TreasureHunt.App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" >
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <StackPanel Grid.Row="1" Margin="10, 50, 10, 0">
-            <TextBlock Margin="0,50,0,0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="50">Treasure Hunt</TextBlock>
+        <StackPanel Margin="10, 50, 10, 0">
+
+            <Image>
+                <Image.Source>
+                    <BitmapImage UriSource="ms-appx:///Assets/logo.png" />
+                </Image.Source>
+            </Image>
+            
             <Button Margin="0, 50, 0, 0" HorizontalAlignment="Center" Click="Button_Click" Width="150">New Game</Button>
             <Button Margin="0, 30, 0, 0" HorizontalAlignment="Center" Click="Button_Click" Width="150">View Games</Button>
             <Button Margin="0, 30, 0, 0" HorizontalAlignment="Center" Click="Button_Click" Width="150">Join Game</Button>

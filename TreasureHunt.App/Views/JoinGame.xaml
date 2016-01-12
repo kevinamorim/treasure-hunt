@@ -8,20 +8,28 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel HorizontalAlignment="Center" Margin="0,20,0,0">
-            <TextBlock FontWeight="Bold" FontSize="30">View Games</TextBlock>
-            <ListView x:Name="listView" Margin="0,20,0,0" ItemClick="List_ItemClick" IsItemClickEnabled="True">
+        <StackPanel HorizontalAlignment="Stretch" Margin="10,20,10,0" >
+            <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Join Game</TextBlock>
+            <TextBlock FontSize="13" HorizontalAlignment="Center">Click a game to join it...</TextBlock>
+            <TextBox PlaceholderText="Enter username..." Margin="0,10,0,0" Width="200"/>
+            <Grid x:Name="ListViewHeaders" Margin="0,30,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  />
+                    <ColumnDefinition  />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" FontWeight="Bold" Text="Difficulty" />
+                <TextBlock Grid.Column="1" FontWeight="Bold" Text="Game Name" />
+            </Grid>
+            <ListView x:Name="listView" Margin="0,5,0,0" ItemsSource="{Binding joinGameViewModels}" ItemClick="List_ItemClick" IsItemClickEnabled="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="40" Padding="10">
+                        <Grid Width="{Binding ElementName=listView, Path=ActualWidth}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition  />
+                                <ColumnDefinition  />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Difficulty}" Grid.Column="0"></TextBlock>
-                            <TextBlock Text="{Binding Name}" Grid.Column="1"></TextBlock>
-                            <TextBlock Text="{Binding Finished}" Grid.Column="2"></TextBlock>
+                            <TextBlock Text="{Binding Difficulty}" Grid.Column="0" />
+                            <TextBlock Text="{Binding GameName}" Grid.Column="1" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

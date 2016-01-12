@@ -15,6 +15,11 @@ namespace TreasureHunt.Api.Models
             get; set;
         }
 
+        public string Name
+        {
+            get; set;
+        }
+
         public string Username
         {
             get; set;
