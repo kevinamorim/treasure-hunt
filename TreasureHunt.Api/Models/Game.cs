@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TreasureHunt.Api.Models
 {
     public class Game
     {
         public Guid Id
+        {
+            get; set;
+        }
+
+        public List<User> Users
         {
             get; set;
         }

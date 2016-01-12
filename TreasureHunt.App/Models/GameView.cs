@@ -1,8 +1,15 @@
-﻿namespace TreasureHunt.App.Models
+﻿using System;
+
+namespace TreasureHunt.App.Models
 {
     public class GameView
     {
-        public string Username
+        public Guid Id
+        {
+            get; set;
+        }
+
+        public string Name
         {
             get; set;
         }

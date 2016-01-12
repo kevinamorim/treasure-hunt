@@ -20,7 +20,7 @@
                                 <ColumnDefinition Width="100"/> 
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding Difficulty}" Grid.Column="0"></TextBlock>
-                            <TextBlock Text="{Binding Username}" Grid.Column="1"></TextBlock>
+                            <TextBlock Text="{Binding Name}" Grid.Column="1"></TextBlock>
                             <TextBlock Text="{Binding Finished}" Grid.Column="2"></TextBlock>
                         </Grid>
                     </DataTemplate>
