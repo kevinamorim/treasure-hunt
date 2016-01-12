@@ -22,6 +22,9 @@ namespace TreasureHunt.App
                 case "New Game":
                     App.RootFrame.Navigate(typeof(NewGame));
                     break;
+                case "Join Game":
+                    App.RootFrame.Navigate(typeof(JoinGame));
+                    break;
                 case "View Games":
                     App.RootFrame.Navigate(typeof(ViewGames));
                     break;

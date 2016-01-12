@@ -20,6 +20,13 @@ namespace TreasureHunt.Api.Controllers
             return "value";
         }
 
+        // GET api/games/finished
+        [Route("api/games/{finished:alpha}")]
+        public IEnumerable<Game> Get(bool finished)
+        {
+            return games.FindAll(m => m.Finished == finished);
+        }
+
         // POST api/games
         public void Post(Game game)
         {
