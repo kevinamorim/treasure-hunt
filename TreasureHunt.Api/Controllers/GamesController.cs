@@ -49,17 +49,19 @@ namespace TreasureHunt.Api.Controllers
 
         [HttpPut]
         [Route("api/games/JoinGame/{id?}")]
-        public string JoinGame(Guid id, User user)
+        public string JoinGame(Guid id, Guid userId)
         {
             Game game = games.Find(m => m.Id == id);
 
             if (game != null)
             {
-                user.Id = Guid.NewGuid();
-                user.CreatedAt = DateTime.Now;
+                User user = UsersController.users.Find(m => m.Id == userId);
 
-                game.Users = new List<User>();
-                game.Users.Add(user);
+                if (user != null)
+                {
+                    game.Users = new List<User>();
+                    game.Users.Add(user);
+                }
             }
 
             return id.ToString();

@@ -7,7 +7,7 @@ namespace TreasureHunt.Api.Controllers
 {
     public class UsersController : ApiController
     {
-        private static List<User> users = new List<User>();
+        public static List<User> users = new List<User>();
 
         public IEnumerable<User> Get()
         {

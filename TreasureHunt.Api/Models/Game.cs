@@ -40,16 +40,6 @@ namespace TreasureHunt.Api.Models
             get; set;
         }
 
-        public double OriginalLatitude
-        {
-            get; set;
-        }
-
-        public double OriginalLongitude
-        {
-            get; set;
-        }
-
         public double TargetLatitude
         {
             get; set;
