@@ -19,6 +19,11 @@ namespace TreasureHunt.App.Views
 
             var localSettings = ApplicationData.Current.LocalSettings;
 
+            if (localSettings.Values.ContainsKey(App.USERNAME))
+            {
+                UsernameTextBlock.Text = (string) localSettings.Values[App.USERNAME];
+            }
+
             if (App.BaseUri == new Uri("http://localhost:56856/api/"))
             {
                 networkBtn_localhost.IsChecked = true;
@@ -50,6 +55,7 @@ namespace TreasureHunt.App.Views
             {
                 case "Save":
 
+                    SaveUsername();
                     SaveAccuracy();
                     SaveUpdateInterval();
                     SaveShowTargetCircle();
@@ -112,6 +118,14 @@ namespace TreasureHunt.App.Views
 
             var localSettings = ApplicationData.Current.LocalSettings;
             localSettings.Values["showTargetCircle"] = showTargetCircle;
+        }
+
+        private void SaveUsername()
+        {
+            string username = UsernameTextBlock.Text;
+
+            var localSettings = ApplicationData.Current.LocalSettings;
+            localSettings.Values[App.USERNAME] = username;
         }
     }
 }

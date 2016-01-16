@@ -24,7 +24,7 @@ namespace TreasureHunt.App.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            UsernameInput.KeyUp += TextBox_KeyUp;
+            GameNameInput.KeyUp += TextBox_KeyUp;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs args) 
@@ -33,7 +33,7 @@ namespace TreasureHunt.App.Views
             {
                 case "Start":
 
-                    UsernameInput.IsEnabled = false;
+                    GameNameInput.IsEnabled = false;
                     DifficultyInput.IsEnabled = false;
 
                     startBtn.Visibility = Visibility.Collapsed;
@@ -63,15 +63,9 @@ namespace TreasureHunt.App.Views
             {
                 Id = Guid.NewGuid(),
                 Name = GameNameInput.Text,
-                Username = UsernameInput.Text,
                 Difficulty = DifficultyInput.SelectedIndex,
                 Finished = false,
                 StartedAt = DateTime.Now
-            };
-
-            User user = new User()
-            {
-                Username = UsernameInput.Text
             };
 
             var accessStatus = await Geolocator.RequestAccessAsync();
@@ -113,23 +107,12 @@ namespace TreasureHunt.App.Views
             using (var client = new HttpClient())
             {
                 var content = JsonConvert.SerializeObject(game);
-                var userContent = JsonConvert.SerializeObject(user);
 
-                Task registerUser = Task.Run(async () =>
-                {
-                    var request = new StringContent(userContent, Encoding.UTF8, "application/json");
-                    await client.PostAsync(App.BaseUri + "users", request);
-                });
-
-                
                 Task registerGame = Task.Run(async () =>
                 {
                     var request = new StringContent(content, Encoding.UTF8, "application/json");
                     await client.PostAsync(App.BaseUri + "games", request);
                 });
-
-                loadingTextBlock.Text = "Registering user...";
-                registerUser.Wait();
 
                 loadingTextBlock.Text = "Creating game...";
                 registerGame.Wait();

@@ -14,11 +14,6 @@ namespace TreasureHunt.App.Models
             get; set;
         }
 
-        public string Username
-        {
-            get; set;
-        }
-
         public int Difficulty
         {
             get; set;

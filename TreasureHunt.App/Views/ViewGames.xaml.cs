@@ -36,7 +36,7 @@ namespace TreasureHunt.App.Views
                 {
                     GameView gameView = new GameView()
                     {
-                        Name = item.Username,
+                        Name = item.Name,
                         Difficulty = difficulties[item.Difficulty]
                     };
 

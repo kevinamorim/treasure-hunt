@@ -20,11 +20,6 @@ namespace TreasureHunt.Api.Models
             get; set;
         }
 
-        public string Username
-        {
-            get; set;
-        }
-
         public int Difficulty
         {
             get; set;

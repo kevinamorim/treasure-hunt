@@ -10,6 +10,8 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Margin="0, 30, 0, 0" HorizontalAlignment="Center">
 
+            <TextBox x:Name="UsernameTextBlock" FontWeight="Bold" Margin="0,20,0,20" TextAlignment="Center" PlaceholderText="Username..." />
+
             <TextBlock TextAlignment="Center" FontWeight="Bold">Connection</TextBlock>
             <RadioButton HorizontalAlignment="Center" HorizontalContentAlignment="Center" x:Name="networkBtn_localhost" Content="localhost" GroupName="network"/>
             <RadioButton HorizontalAlignment="Center" HorizontalContentAlignment="Center" x:Name="networkBtn_azure" Content="azure" GroupName="network" />
