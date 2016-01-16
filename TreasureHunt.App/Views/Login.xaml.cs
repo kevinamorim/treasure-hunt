@@ -18,13 +18,14 @@ namespace TreasureHunt.App.Views
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs args)
+        private async void Button_Click(object sender, RoutedEventArgs args)
         {
             switch ((sender as Button).Content.ToString())
             {
                 case "Login":
 
-                    DoLogin();
+                    Guid userId = await DoLogin();
+                    SaveUserId(userId);
 
                     App.RootFrame.Navigate(typeof(MainPage));
 
@@ -34,8 +35,13 @@ namespace TreasureHunt.App.Views
             }
         }
 
-        private void DoLogin()
+        private async Task<Guid> DoLogin()
         {
+
+            LoginStackPanel.Visibility = Visibility.Collapsed;
+            loadingProgressRing.IsActive = true;
+            LoadingStackPanel.Visibility = Visibility.Visible;
+
             User user = new User() { Username = UsernameTextBox.Text };
 
             if ((bool)LocalhostCheckBox.IsChecked)
@@ -43,12 +49,12 @@ namespace TreasureHunt.App.Views
                 App.BaseUri = new Uri("http://localhost:56856/api/");
             }
 
+            HttpResponseMessage response = null;
+            string userIdString = "";
+
             using (var client = new HttpClient())
             {
                 var content = JsonConvert.SerializeObject(user);
-
-                HttpResponseMessage response = null;
-                string userIdString = "";
 
                 Task registerUser = Task.Run(async () =>
                 {
@@ -57,17 +63,11 @@ namespace TreasureHunt.App.Views
                     userIdString = await response.Content.ReadAsStringAsync();
                 });
 
-                LoginStackPanel.Visibility = Visibility.Collapsed;
-                loadingProgressRing.IsActive = true;
-                LoginStackPanel.Visibility = Visibility.Visible;
-
-                registerUser.Wait();
-
-                Guid userId = new Guid(userIdString.Trim('"'));
-
-                SaveUserId(userId);
+                await registerUser;
 
             }
+
+            return new Guid(userIdString.Trim('"'));
         }
 
         private void SaveUserId(Guid userId)

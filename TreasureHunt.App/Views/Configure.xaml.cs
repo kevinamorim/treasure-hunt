@@ -76,6 +76,12 @@ namespace TreasureHunt.App.Views
                     App.RootFrame.Navigate(typeof(MainPage));
 
                     break;
+                case "Logout":
+
+                    Logout();
+                    App.RootFrame.Navigate(typeof(Login));
+
+                    break;
                 default:
                     break;
             }
@@ -127,5 +133,12 @@ namespace TreasureHunt.App.Views
             var localSettings = ApplicationData.Current.LocalSettings;
             localSettings.Values[App.USERNAME] = username;
         }
+
+        private void Logout()
+        {
+            var localSettings = ApplicationData.Current.LocalSettings;
+            localSettings.Values.Remove(App.USER_ID);
+        }
+
     }
 }

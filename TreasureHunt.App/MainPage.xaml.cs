@@ -1,5 +1,4 @@
 ﻿using TreasureHunt.App.Views;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -7,8 +6,6 @@ namespace TreasureHunt.App
 {
     public sealed partial class MainPage : Page
     {
-        const string apiUrl = @"localhost:51397/api/";
-
         public MainPage()
         {
             InitializeComponent();
