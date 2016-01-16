@@ -43,7 +43,7 @@ namespace TreasureHunt.App.Views
                     loadingTextBlock.Visibility = Visibility.Visible;
                     Game game = await CreateGame();
 
-                    App.RootFrame.Navigate(typeof(Play), game);
+                    App.RootFrame.Navigate(typeof(Play), game.Id);
 
                     break;
                 default:
@@ -88,9 +88,6 @@ namespace TreasureHunt.App.Views
                         (int)(distanceInMeters[game.Difficulty] + accuracyInMeters));
 
                     Geopoint destination = new Geopoint(destinationBasicGeoPosition);
-
-                    game.OriginalLatitude = myLocation.Position.Latitude;
-                    game.OriginalLongitude = myLocation.Position.Longitude;
 
                     game.TargetLatitude = destination.Position.Latitude;
                     game.TargetLongitude = destination.Position.Longitude;

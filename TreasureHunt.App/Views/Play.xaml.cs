@@ -9,6 +9,9 @@ using System;
 using Windows.UI.Core;
 using Windows.UI;
 using Windows.System.Display;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace TreasureHunt.App.Views
 {
@@ -21,16 +24,6 @@ namespace TreasureHunt.App.Views
         }
 
         private uint UpdateIntervalInSeconds
-        {
-            get; set;
-        }
-
-        private bool ShowTargetCircle
-        {
-            get; set;
-        }
-
-        private MapIcon UserLocationIcon
         {
             get; set;
         }
@@ -65,7 +58,9 @@ namespace TreasureHunt.App.Views
             KeepScreenOnRequest = new DisplayRequest();
             KeepScreenOnRequest.RequestActive();
 
-            Game = (Game)e.Parameter;
+            Guid gameId = (Guid)e.Parameter;
+
+            GetGame(gameId);
 
             LoadSettings();
 
@@ -77,16 +72,7 @@ namespace TreasureHunt.App.Views
 
                     InitializeGeolocator();
 
-                    Geopoint currentPosition = new Geopoint(new BasicGeoposition() { Latitude = Game.OriginalLatitude, Longitude = Game.OriginalLongitude });
                     TargetPosition = new Geopoint(new BasicGeoposition() { Latitude = Game.TargetLatitude, Longitude = Game.TargetLongitude });
-
-                    DrawMap(currentPosition, 15);
-                    DrawUserPositionIcon(currentPosition);
-
-                    if (ShowTargetCircle)
-                    {
-                        DrawTargetCircle(TargetPosition);
-                    }
 
                     DoneLoadingMap();
 
@@ -113,14 +99,29 @@ namespace TreasureHunt.App.Views
 
         }
 
+        private void GetGame(Guid gameId)
+        {
+            using (var client = new HttpClient())
+            {
+                Task getGame = Task.Run(async () =>
+                {
+                    var response = await client.GetAsync(App.BaseUri + "games/" + gameId.ToString());
+                    var str = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("response: " + str);
+                    Game = await response.Content.ReadAsAsync<Game>();
+                });
+
+                getGame.Wait();
+            }
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             switch ((sender as Button).Content.ToString())
             {
                 case "Finish":
 
-                    Game.FinishedAt = DateTime.Now;
-                    App.RootFrame.Navigate(typeof(GameOver), Game);
+                    GameOver();
 
                     break;
                 default:
@@ -151,8 +152,6 @@ namespace TreasureHunt.App.Views
 
         private void SetCurrentPosition(Geopoint currentPosition)
         {
-            MainMap.Center = currentPosition;
-            UserLocationIcon.Location = currentPosition;
 
             var currentBasicGeoposition = new BasicGeoposition() { Latitude = currentPosition.Position.Latitude, Longitude = currentPosition.Position.Longitude };
             var targetBasicGeoposition = new BasicGeoposition() { Latitude = TargetPosition.Position.Latitude, Longitude = TargetPosition.Position.Longitude };
@@ -167,36 +166,12 @@ namespace TreasureHunt.App.Views
             distanceTextBlock.Text = "Distance: " + Math.Round(distanceInMeters, 0) + " meters ";
         }
 
-        private void DrawMap(Geopoint center, int zoomLevel, bool landmarksVisible = false)
-        {
-            MainMap.Center = center;
-            MainMap.ZoomLevel = zoomLevel;
-            MainMap.LandmarksVisible = landmarksVisible;
-        }
-
-        private void DrawUserPositionIcon(Geopoint currentPosition)
-        {
-            UserLocationIcon = new MapIcon();
-            UserLocationIcon.Location = currentPosition;
-            UserLocationIcon.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 0.5);
-            UserLocationIcon.ZIndex = 0;
-
-            MainMap.MapElements.Add(UserLocationIcon);
-        }
-
-        private void DrawTargetCircle(Geopoint targetPosition)
-        {
-            MapPolygon targetPositionCircle = MapHelper.DrawCircle(GeoHelper.CalculateCircle(targetPosition.Position, (int)DesiredAccuracyInMeters), Colors.Chocolate, Colors.BurlyWood);
-            MainMap.MapElements.Add(targetPositionCircle);
-        }
-
         private void DoneLoadingMap()
         {
             progressRing.IsActive = false;
             progressRing.Visibility = Visibility.Collapsed;
             progressMessage.Visibility = Visibility.Collapsed;
             distanceTextBlock.Visibility = Visibility.Visible;
-            MainMap.Visibility = Visibility.Visible;
             nextUpdateTextBlock.Visibility = Visibility.Visible;
             progressBar.Visibility = Visibility.Visible;
             finishButton.Visibility = Visibility.Visible;
@@ -205,7 +180,8 @@ namespace TreasureHunt.App.Views
         private void GameOver()
         {
             KeepScreenOnRequest.RequestRelease();
-            gameOverTextBlock.Visibility = Visibility.Visible;
+            Game.FinishedAt = DateTime.Now;
+            App.RootFrame.Navigate(typeof(GameOver), Game);
         }
 
         private async void updateProgress(object sender, object e)
@@ -230,7 +206,6 @@ namespace TreasureHunt.App.Views
 
             uint defaultDesiredAccuracy = 50;
             uint defaultUpdateInterval = 10;
-            bool defaultShowTargetCircle = false;
 
             var localSettings = ApplicationData.Current.LocalSettings;
 
@@ -239,9 +214,6 @@ namespace TreasureHunt.App.Views
 
             var updateInterval = localSettings.Values["updateInterval"];
             UpdateIntervalInSeconds = (updateInterval == null) ? defaultUpdateInterval : Convert.ToUInt32(updateInterval);
-
-            var showTargetCircle = localSettings.Values["showTargetCircle"];
-            ShowTargetCircle = (showTargetCircle == null) ? defaultShowTargetCircle : (bool)showTargetCircle;
 
         }
     }

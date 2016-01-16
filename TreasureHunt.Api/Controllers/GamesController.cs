@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Web.Http;
@@ -17,9 +18,10 @@ namespace TreasureHunt.Api.Controllers
         }
 
         // GET api/games
-        public string Get(int id)
+        [Route("api/games/{id}")]
+        public Game Get(Guid id)
         {
-            return "value";
+            return games.Find(m => m.Id == id);
         }
 
         // GET api/games/finished
@@ -48,14 +50,15 @@ namespace TreasureHunt.Api.Controllers
         }
 
         [HttpPut]
-        [Route("api/games/JoinGame/{id?}")]
-        public string JoinGame(Guid id, Guid userId)
+        [Route("api/games/JoinGame/")]
+        public string JoinGame([FromBody] JoinGame joinGame)
         {
-            Game game = games.Find(m => m.Id == id);
+
+            Game game = games.Find(m => m.Id == joinGame.GameId);
 
             if (game != null)
             {
-                User user = UsersController.users.Find(m => m.Id == userId);
+                User user = UsersController.users.Find(m => m.Id == joinGame.UserId);
 
                 if (user != null)
                 {
@@ -64,7 +67,7 @@ namespace TreasureHunt.Api.Controllers
                 }
             }
 
-            return id.ToString();
+            return joinGame.GameId.ToString();
         }
 
         // DELETE api/games

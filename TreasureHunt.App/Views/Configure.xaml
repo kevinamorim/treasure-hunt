@@ -10,8 +10,6 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Margin="0, 30, 0, 0" HorizontalAlignment="Center">
 
-            <TextBox x:Name="UsernameTextBlock" FontWeight="Bold" Margin="0,20,0,20" TextAlignment="Center" PlaceholderText="Username..." />
-
             <TextBlock TextAlignment="Center" FontWeight="Bold">Connection</TextBlock>
             <RadioButton HorizontalAlignment="Center" HorizontalContentAlignment="Center" x:Name="networkBtn_localhost" Content="localhost" GroupName="network"/>
             <RadioButton HorizontalAlignment="Center" HorizontalContentAlignment="Center" x:Name="networkBtn_azure" Content="azure" GroupName="network" />
@@ -22,11 +20,9 @@
             <TextBlock x:Name="updateIntervalTextBlock" TextAlignment="Center" FontWeight="Bold">Update Interval</TextBlock>
             <Slider x:Name="updateIntervalSlider" HorizontalAlignment="Center" Minimum="0" Maximum="60" Width="200" StepFrequency="10" IsThumbToolTipEnabled="False" ValueChanged="SliderChanged" />
 
-            <CheckBox x:Name="showTargetCircleCheckbox" FontWeight="Bold" Margin="0,20,0,0">Show Target Circle (Debug)</CheckBox>
-
-            <StackPanel HorizontalAlignment="Center">
-                <Button Margin="0, 20, 0, 0" Click="Button_Click" HorizontalAlignment="Center">Save</Button>
-                <Button Margin="0, 10, 0, 0" Click="Button_Click" HorizontalAlignment="Center">Logout</Button>
+            <StackPanel HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="0,1,0,0" Width="250" Margin="0,30,0,0">
+                <Button Margin="0, 20, 0, 0" Click="Button_Click" HorizontalAlignment="Center" Width="175">Save</Button>
+                <Button Margin="0, 10, 0, 0" Click="Button_Click" HorizontalAlignment="Center" Width="175">Logout</Button>
             </StackPanel>
         </StackPanel>
 

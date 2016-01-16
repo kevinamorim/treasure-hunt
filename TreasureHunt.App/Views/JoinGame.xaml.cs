@@ -1,15 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using TreasureHunt.App.Models;
-using Windows.UI.Xaml;
+using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -59,25 +55,34 @@ namespace TreasureHunt.App.Views
         private void List_ItemClick(object sender, ItemClickEventArgs args)
         {
 
-            Debug.WriteLine("Clicked.");
+            JoinGameViewModel gameView = args.ClickedItem as JoinGameViewModel;
 
-            User user = new User() { Username = "kevin" };
-
-            GameView gameView = args.ClickedItem as GameView;
+            var localSettings = ApplicationData.Current.LocalSettings;
+            string userId = localSettings.Values[App.USER_ID].ToString();
 
             HttpResponseMessage response = new HttpResponseMessage();
+
+            var jsonString = JsonConvert.SerializeObject(new
+            {
+                GameId = gameView.Id,
+                UserId = userId
+            });
+
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            var str = "";
             using (var client = new HttpClient())
             {
-                var content = JsonConvert.SerializeObject(user);
-                var request = new StringContent(content, Encoding.UTF8, "application/json");
                 Task task = Task.Run(async () =>
                 {
-                    response = await client.PutAsync(App.BaseUri + "games/JoinGame/" + gameView.Id, request);
+                    response = await client.PutAsync(App.BaseUri + "games/JoinGame", content);
+                    str = await response.Content.ReadAsStringAsync();
                 });
                 task.Wait();
             }
 
-            Debug.WriteLine("Status: " + response.StatusCode.ToString() + " Response: " + response.Content.ToString());
+            Debug.WriteLine("ID: " + str);
+
+            App.RootFrame.Navigate(typeof(Play), gameView.Id);
 
         }
     }
