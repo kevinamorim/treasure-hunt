@@ -79,7 +79,10 @@ namespace TreasureHunt.Api.Controllers
 
                 if (user != null)
                 {
-                    game.Users.Add(user);
+                    if (!game.Users.Contains(user))
+                    {
+                        game.Users.Add(user);
+                    }
                 }
             }
 

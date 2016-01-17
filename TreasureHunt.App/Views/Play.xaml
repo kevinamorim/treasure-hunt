@@ -6,20 +6,37 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="Page_Loaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel HorizontalAlignment="Center" Margin="10,50,10,0" Grid.Row="0" Width="340">
-            <ProgressRing x:Name="progressRing" HorizontalAlignment="Center" Height="60" Width="60" IsActive="True" />
-            <TextBlock x:Name="progressMessage" Margin="0, 30, 0, 0" HorizontalAlignment="Center">Getting your location, this may take a while...</TextBlock>
+        <StackPanel Margin="10, 50, 10, 0" Grid.Row="0">
+            <Image>
+                <Image.Source>
+                    <BitmapImage UriSource="ms-appx:///Assets/logo.png" />
+                </Image.Source>
+            </Image>
+        </StackPanel>
 
-            <TextBlock x:Name="distanceTextBlock" HorizontalAlignment="Center" Margin="0,20,0,20" Visibility="Collapsed">Distance:</TextBlock>
+        <StackPanel x:Name="LoadingStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" Grid.Row="1">
+            <ProgressRing x:Name="LoadingProgressRing" HorizontalAlignment="Center" Height="60" Width="60" IsActive="True" />
+            <TextBlock Margin="0, 30, 0, 0" HorizontalAlignment="Center">Getting your location, this may take a while...</TextBlock>
+        </StackPanel>
 
-            <ListView x:Name="listView" Margin="0,5,0,0" ItemsSource="{Binding users}" >
+        <StackPanel x:Name="GameStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Grid.Row="1">
+
+            <TextBlock x:Name="GameTitleTextBlock" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" Margin="0,20,0,0" />
+
+            <TextBlock HorizontalAlignment="Center" Margin="0,20,0,20" FontWeight="Bold">Time</TextBlock>
+            <TextBlock x:Name="TimeTextBlock" Margin="0,0,0,0" TextAlignment="Center" />
+            
+            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Margin="0,20,0,20" FontWeight="Bold">Players:</TextBlock>
+            <ListView x:Name="listView" Margin="0,5,0,0" HorizontalContentAlignment="Center" Width="300" ItemsSource="{Binding users}" BorderThickness="0,1,0,1" BorderBrush="Black" IsItemClickEnabled="False">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid Width="{Binding ElementName=listView, Path=ActualWidth}">
@@ -32,14 +49,15 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <TextBlock x:Name="nextUpdateTextBlock" HorizontalAlignment="Center" Margin="0,10,0,0" FontWeight="Bold" Visibility="Collapsed">Next update:</TextBlock>
-            <ProgressBar x:Name="progressBar" Margin="0, 10, 0, 0" Height="30" Width="200" Visibility="Collapsed" />
-            <ProgressRing x:Name="updateProgressRing" Margin="0,10,0,0" Height="30" Width="30" Visibility="Collapsed" IsActive="False" />
-            <Button x:Name="finishButton" Click="Button_Click" HorizontalAlignment="Center" Margin="0,20,0,0" Width="100" Visibility="Collapsed">Finish</Button>
+            <TextBlock HorizontalAlignment="Center" Margin="0,20,0,20" FontWeight="Bold">Distance:</TextBlock>
+            <TextBlock x:Name="DistanceTextBlock" Margin="0,0,0,0" TextAlignment="Center" />
 
+            <TextBlock HorizontalAlignment="Center" Margin="0,20,0,0" FontWeight="Bold">Next update:</TextBlock>
+            <ProgressBar x:Name="progressBar" Margin="0, 10, 0, 0" Height="30" Width="200" />
+            <ProgressRing x:Name="updateProgressRing" Margin="0,10,0,0" Height="30" Width="30" Visibility="Collapsed" IsActive="False" />
+            <Button Click="Button_Click" HorizontalAlignment="Center" Margin="0,50,0,0" Width="100">Finish</Button>
 
         </StackPanel>
-
 
     </Grid>
 </Page>

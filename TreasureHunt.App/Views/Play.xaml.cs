@@ -76,8 +76,6 @@ namespace TreasureHunt.App.Views
 
                     TargetPosition = new Geopoint(new BasicGeoposition() { Latitude = Game.TargetLatitude, Longitude = Game.TargetLongitude });
 
-                    DoneLoadingMap();
-
                     progressBar.Maximum = UpdateIntervalInSeconds;
                     progressBar.Value = UpdateIntervalInSeconds;
 
@@ -121,7 +119,6 @@ namespace TreasureHunt.App.Views
         {
 
             List<User> users = null;
-
 
             using (var client = new HttpClient())
             {
@@ -201,18 +198,8 @@ namespace TreasureHunt.App.Views
                 GameOver();
             }
 
-            distanceTextBlock.Text = "Distance: " + Math.Round(distanceInMeters, 0) + " meters ";
-        }
+            DistanceTextBlock.Text = Math.Round(distanceInMeters, 0) + " meters";
 
-        private void DoneLoadingMap()
-        {
-            progressRing.IsActive = false;
-            progressRing.Visibility = Visibility.Collapsed;
-            progressMessage.Visibility = Visibility.Collapsed;
-            distanceTextBlock.Visibility = Visibility.Visible;
-            nextUpdateTextBlock.Visibility = Visibility.Visible;
-            progressBar.Visibility = Visibility.Visible;
-            finishButton.Visibility = Visibility.Visible;
         }
 
         private void GameOver()
@@ -226,6 +213,9 @@ namespace TreasureHunt.App.Views
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                TimeSpan span = (DateTime.Now - Game.StartedAt);
+                TimeTextBlock.Text = span.Days + "d " + span.Hours + "h " + span.Minutes + "m " + span.Seconds + "s";
+
                 if (progressBar.Value <= 0)
                 {
                     progressBar.Visibility = Visibility.Collapsed;
@@ -253,6 +243,17 @@ namespace TreasureHunt.App.Views
             var updateInterval = localSettings.Values["updateInterval"];
             UpdateIntervalInSeconds = (updateInterval == null) ? defaultUpdateInterval : Convert.ToUInt32(updateInterval);
 
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs args)
+        {
+            LoadingStackPanel.Visibility = Visibility.Collapsed;
+            LoadingProgressRing.IsActive = false;
+
+            GameTitleTextBlock.Text = Game.Name;
+            DistanceTextBlock.Text = 0 + " meters";
+
+            GameStackPanel.Visibility = Visibility.Visible;
         }
     }
 }
