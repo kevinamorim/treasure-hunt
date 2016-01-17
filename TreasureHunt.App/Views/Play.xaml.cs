@@ -191,7 +191,7 @@ namespace TreasureHunt.App.Views
             var currentBasicGeoposition = new BasicGeoposition() { Latitude = currentPosition.Position.Latitude, Longitude = currentPosition.Position.Longitude };
             var targetBasicGeoposition = new BasicGeoposition() { Latitude = TargetPosition.Position.Latitude, Longitude = TargetPosition.Position.Longitude };
 
-            var distanceInMeters = GeoHelper.CalculateDistance(currentBasicGeoposition, targetBasicGeoposition) * 1000;
+            var distanceInMeters = (GeoHelper.CalculateDistance(currentBasicGeoposition, targetBasicGeoposition) * 1000) - DesiredAccuracyInMeters;
 
             if (distanceInMeters <= DesiredAccuracyInMeters)
             {

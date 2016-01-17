@@ -10,9 +10,18 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+        <StackPanel Margin="10, 50, 10, 0" Grid.Row="0">
+            <Image>
+                <Image.Source>
+                    <BitmapImage UriSource="ms-appx:///Assets/logo.png" />
+                </Image.Source>
+            </Image>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
             <TextBlock Margin="0,20,0,0" FontWeight="Bold" FontSize="20">CONGRATULATIONS</TextBlock>
             <TextBlock x:Name="difficultyTextBlock" Margin="0,50,0,0">Difficulty:</TextBlock>
             <TextBlock x:Name="timeTextBlock" Margin="0,20,0,0">Time:</TextBlock>

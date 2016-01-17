@@ -43,8 +43,15 @@ namespace TreasureHunt.App.Views
                 task.Wait();
             }
 
+            // Back button
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
+        }
 
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            App.RootFrame.Navigate(typeof(MainPage));
         }
 
     }

@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using TreasureHunt.App.Models;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace TreasureHunt.App.Views
 {
