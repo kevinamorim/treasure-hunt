@@ -19,6 +19,19 @@
 
             <TextBlock x:Name="distanceTextBlock" HorizontalAlignment="Center" Margin="0,20,0,20" Visibility="Collapsed">Distance:</TextBlock>
 
+            <ListView x:Name="listView" Margin="0,5,0,0" ItemsSource="{Binding users}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="{Binding ElementName=listView, Path=ActualWidth}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition  />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Username}" Grid.Column="0" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
             <TextBlock x:Name="nextUpdateTextBlock" HorizontalAlignment="Center" Margin="0,10,0,0" FontWeight="Bold" Visibility="Collapsed">Next update:</TextBlock>
             <ProgressBar x:Name="progressBar" Margin="0, 10, 0, 0" Height="30" Width="200" Visibility="Collapsed" />
             <ProgressRing x:Name="updateProgressRing" Margin="0,10,0,0" Height="30" Width="30" Visibility="Collapsed" IsActive="False" />

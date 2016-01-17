@@ -12,6 +12,8 @@ using Windows.System.Display;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TreasureHunt.App.Views
 {
@@ -107,12 +109,36 @@ namespace TreasureHunt.App.Views
                 {
                     var response = await client.GetAsync(App.BaseUri + "games/" + gameId.ToString());
                     var str = await response.Content.ReadAsStringAsync();
-                    Debug.WriteLine("response: " + str);
+                    Debug.WriteLine("GetGame(): " + str);
                     Game = await response.Content.ReadAsAsync<Game>();
                 });
 
                 getGame.Wait();
             }
+        }
+
+        private ICollection<User> GetPlayers()
+        {
+
+            List<User> users = null;
+
+
+            using (var client = new HttpClient())
+            {
+                Task getPlayers = Task.Run(async () =>
+                {
+                    var response = await client.GetAsync(App.BaseUri + "games/GetPlayers/" + Game.Id.ToString());
+                    var str = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("GetPlayers(): " + str);
+
+                    users = await response.Content.ReadAsAsync<List<User>>();
+                });
+
+                 getPlayers.Wait();
+
+            }
+
+            return users;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -147,7 +173,19 @@ namespace TreasureHunt.App.Views
                 updateProgressRing.IsActive = false;
                 Geopoint currentPosition = new Geopoint(new BasicGeoposition() { Latitude = args.Position.Coordinate.Latitude, Longitude = args.Position.Coordinate.Longitude });
                 SetCurrentPosition(currentPosition);
+
+                SetPlayersList();
             });
+        }
+
+        private void SetPlayersList()
+        {
+            var players = GetPlayers();
+
+            if (players != null)
+            {
+                listView.ItemsSource = players.ToList();
+            }
         }
 
         private void SetCurrentPosition(Geopoint currentPosition)
@@ -186,7 +224,7 @@ namespace TreasureHunt.App.Views
 
         private async void updateProgress(object sender, object e)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 if (progressBar.Value <= 0)
                 {

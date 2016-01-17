@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,11 +62,9 @@ namespace TreasureHunt.App.Views
 
             var game = new Game()
             {
-                Id = Guid.NewGuid(),
                 Name = GameNameInput.Text,
                 Difficulty = DifficultyInput.SelectedIndex,
                 Finished = false,
-                StartedAt = DateTime.Now
             };
 
             var accessStatus = await Geolocator.RequestAccessAsync();
@@ -104,15 +103,21 @@ namespace TreasureHunt.App.Views
             using (var client = new HttpClient())
             {
                 var content = JsonConvert.SerializeObject(game);
+                var gameId = "";
 
                 Task registerGame = Task.Run(async () =>
                 {
                     var request = new StringContent(content, Encoding.UTF8, "application/json");
-                    await client.PostAsync(App.BaseUri + "games", request);
+                    var response = await client.PostAsync(App.BaseUri + "games", request);
+                    gameId = await response.Content.ReadAsStringAsync();
                 });
 
                 loadingTextBlock.Text = "Creating game...";
                 registerGame.Wait();
+
+                game.Id = new Guid(gameId.Trim('"'));
+
+                JoinGame(game.Id);
             }
 
             return game;
@@ -123,6 +128,31 @@ namespace TreasureHunt.App.Views
             if (args.Key == Windows.System.VirtualKey.Enter)
             {
                 Windows.UI.ViewManagement.InputPane.GetForCurrentView().TryHide();
+            }
+        }
+
+        private void JoinGame(Guid gameId)
+        {
+            var localSettings = ApplicationData.Current.LocalSettings;
+            Guid userId = new Guid(localSettings.Values[App.USER_ID].ToString());
+
+            var jsonString = JsonConvert.SerializeObject(new
+            {
+                GameId = gameId,
+                UserId = userId
+            });
+
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            var str = "";
+            using (var client = new HttpClient())
+            {
+                Task task = Task.Run(async () =>
+                {
+                    var response = await client.PutAsync(App.BaseUri + "games/JoinGame", content);
+                    str = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("JoinGame(): " + str);
+                });
+                task.Wait();
             }
         }
 

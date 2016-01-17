@@ -31,10 +31,27 @@ namespace TreasureHunt.Api.Controllers
             return games.FindAll(m => m.Finished == finished);
         }
 
-        // POST api/games
-        public void Post(Game game)
+        [HttpGet]
+        [Route("api/games/GetPlayers/{id}")]
+        public IEnumerable<User> GetPlayers(Guid id)
         {
+            Game game = games.Find(m => m.Id == id);
+            if (game != null)
+            {
+                return game.Users;
+            }
+
+            return new List<User>();
+        }
+
+        // POST api/games
+        public Guid Post(Game game)
+        {
+            game.Id = Guid.NewGuid();
+            game.StartedAt = DateTime.Now;
+            game.Users = new List<User>();
             games.Add(game);
+            return game.Id;
         }
 
         // PUT api/games
@@ -62,7 +79,6 @@ namespace TreasureHunt.Api.Controllers
 
                 if (user != null)
                 {
-                    game.Users = new List<User>();
                     game.Users.Add(user);
                 }
             }
