@@ -42,6 +42,7 @@ namespace TreasureHunt.App.Views
 
                     progressRing.Visibility = Visibility.Visible;
                     loadingTextBlock.Visibility = Visibility.Visible;
+
                     Game game = await CreateGame();
 
                     App.RootFrame.Navigate(typeof(Play), game.Id);
@@ -58,7 +59,7 @@ namespace TreasureHunt.App.Views
             List<int> distanceInMeters = new List<int>(new int[] { 100, 500, 1000 });
 
             var localSettings = ApplicationData.Current.LocalSettings;
-            uint accuracyInMeters = localSettings.Values.ContainsKey("desiredAccuracy") ? Convert.ToUInt32(localSettings.Values["desiredAccuracy"]) : 50;
+            uint accuracyInMeters = localSettings.Values.ContainsKey(App.DESIRED_ACCURACY) ? Convert.ToUInt32(localSettings.Values[App.DESIRED_ACCURACY]) : 50;
 
             var game = new Game()
             {
@@ -74,7 +75,7 @@ namespace TreasureHunt.App.Views
 
                     Geolocator geolocator = new Geolocator { DesiredAccuracyInMeters = accuracyInMeters };
 
-                    loadingTextBlock.Text = "Getting your location...";
+                    loadingTextBlock.Text = "Getting your location (+/-" + accuracyInMeters + " m) ...";
                     Geoposition pos = await geolocator.GetGeopositionAsync();
                     Geopoint myLocation = pos.Coordinate.Point;
 
@@ -93,8 +94,10 @@ namespace TreasureHunt.App.Views
 
                     break;
                 case GeolocationAccessStatus.Denied:
+                    loadingTextBlock.Text = "Location access denied! :(";
                     break;
                 case GeolocationAccessStatus.Unspecified:
+                    loadingTextBlock.Text = "Unspecified error with location :/";
                     break;
                 default:
                     break;

@@ -24,6 +24,7 @@ namespace TreasureHunt.App
 
         public static string USER_ID = "UserId";
         public static string USERNAME = "Username";
+        public static string DESIRED_ACCURACY = "DesiredAccuracy";
 
         public App()
         {

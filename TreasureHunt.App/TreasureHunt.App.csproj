@@ -126,9 +126,6 @@
     <Compile Include="Views\Play.xaml.cs">
       <DependentUpon>Play.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ViewGames.xaml.cs">
-      <DependentUpon>ViewGames.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -177,10 +174,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Play.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ViewGames.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

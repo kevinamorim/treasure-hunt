@@ -27,9 +27,9 @@ namespace TreasureHunt.App.Views
                 networkBtn_azure.IsChecked = true;
             }
 
-            if (localSettings.Values.ContainsKey("desiredAccuracy"))
+            if (localSettings.Values.ContainsKey(App.DESIRED_ACCURACY))
             {
-                accuracySlider.Value = (double) localSettings.Values["desiredAccuracy"];
+                accuracySlider.Value = (double) localSettings.Values[App.DESIRED_ACCURACY];
             }
 
             if (localSettings.Values.ContainsKey("updateInterval"))
@@ -94,7 +94,7 @@ namespace TreasureHunt.App.Views
             double accuracy = accuracySlider.Value;
 
             var localSettings = ApplicationData.Current.LocalSettings;
-            localSettings.Values["desiredAccuracy"] = accuracy;
+            localSettings.Values[App.DESIRED_ACCURACY] = accuracy;
         }
 
         private void SaveUpdateInterval()

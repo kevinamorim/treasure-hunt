@@ -15,14 +15,6 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="10, 50, 10, 0" Grid.Row="0">
-            <Image>
-                <Image.Source>
-                    <BitmapImage UriSource="ms-appx:///Assets/logo.png" />
-                </Image.Source>
-            </Image>
-        </StackPanel>
-
         <StackPanel x:Name="LoadingStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" Grid.Row="1">
             <ProgressRing x:Name="LoadingProgressRing" HorizontalAlignment="Center" Height="60" Width="60" IsActive="True" />
             <TextBlock Margin="0, 30, 0, 0" HorizontalAlignment="Center">Getting your location, this may take a while...</TextBlock>

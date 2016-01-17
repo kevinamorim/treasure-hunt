@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TreasureHunt.App.Models;
 using Windows.Storage;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -18,7 +19,7 @@ namespace TreasureHunt.App.Views
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs args)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             using (var client = new HttpClient())
             {

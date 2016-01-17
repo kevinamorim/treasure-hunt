@@ -237,7 +237,7 @@ namespace TreasureHunt.App.Views
 
             var localSettings = ApplicationData.Current.LocalSettings;
 
-            var desiredAccuracy = localSettings.Values["desiredAccuracy"];
+            var desiredAccuracy = localSettings.Values[App.DESIRED_ACCURACY];
             DesiredAccuracyInMeters = (desiredAccuracy == null) ? defaultDesiredAccuracy : Convert.ToUInt32(desiredAccuracy);
 
             var updateInterval = localSettings.Values["updateInterval"];
